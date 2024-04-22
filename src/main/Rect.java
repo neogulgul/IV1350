@@ -1,5 +1,5 @@
 /**
- * Rectangle representation.
+ * Rectangle representation
  */
 public class Rect
 {
@@ -21,7 +21,7 @@ public class Rect
 	public double h;
 
 	/**
-	 * Constructor...
+	 * Constructor
 	 *
 	 * @param x x coordinate
 	 * @param y y coordinate
@@ -37,10 +37,10 @@ public class Rect
 	}
 
 	/**
-	 * Yeah buddy
+	 * Rectangle area
 	 * @return Rectangle area
 	 */
-	public double get_area()
+	public double getArea()
 	{
 		return w * h;
 	}
