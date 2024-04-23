@@ -1,27 +1,37 @@
-dependencies_dir = dependencies/compilation
+documentation_dir := documentation
 
-junit       = $(dependencies_dir)/junit-jupiter-api-5.10.2.jar
-apiguardian = $(dependencies_dir)/apiguardian-api-1.1.2.jar
+dependencies_dir  := dependencies/compilation
 
-dependancies = .:$(junit):$(apiguardian)
+junit             := $(dependencies_dir)/junit-jupiter-api-5.10.2.jar
+apiguardian       := $(dependencies_dir)/apiguardian-api-1.1.2.jar
 
-source_dir = src
-target_dir = bin
+dependencies      := $(junit):$(apiguardian)
 
-main_source_dir = $(source_dir)/main
-main_target_dir = $(target_dir)/main
+source_dir        := source
+target_dir        := target
 
-test_source_dir = $(source_dir)/test
-test_target_dir = $(target_dir)/test
+main_source_dir   := $(source_dir)/main
+main_target_dir   := $(target_dir)/main
 
-documentation_dir = doc
+test_source_dir   := $(source_dir)/test
+test_target_dir   := $(target_dir)/test
+
+main_files        := $(shell find $(main_source_dir) -type f -name *.java)
+test_files        := $(shell find $(test_source_dir) -type f -name *.java)
 
 compile: clean-target
-	# Compiling main classes
-	javac -cp $(dependancies) $(main_source_dir)/*.java -d $(main_target_dir)
-	# Compiling test classes
-	javac -cp $(dependancies):$(main_source_dir) $(test_source_dir)/*.java -d $(test_target_dir)
-	# Running tests
+	clear
+	# ┌────────────────────────┐
+	# │ Compiling main classes │
+	# └────────────────────────┘
+	javac -cp $(dependencies) -d $(main_target_dir) $(main_files)
+	# ┌────────────────────────┐
+	# │ Compiling test classes │
+	# └────────────────────────┘
+	javac -cp $(dependencies):$(main_target_dir) -d $(test_target_dir) $(test_files)
+	# ┌───────────────┐
+	# │ Running tests │
+	# └───────────────┘
 	./test.sh
 
 docs: clean-documentation
