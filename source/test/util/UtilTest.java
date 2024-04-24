@@ -33,16 +33,16 @@ class UtilTest
 	}
 
 	@Test
-	public void lengthOfDoubleBeforeDecimalPoint()
+	public void lengthOfDoubleBeforeDecimal()
 	{
-		assertEquals(1, Util.lengthOfDoubleBeforeDecimalPoint(0));
-		assertEquals(3, Util.lengthOfDoubleBeforeDecimalPoint(123.456));
+		assertEquals(1, Util.lengthOfDoubleBeforeDecimal(0));
+		assertEquals(3, Util.lengthOfDoubleBeforeDecimal(123.456));
 	}
 
 	@Test
-	public void lengthOfDoubleAfterDecimalPoint()
+	public void lengthOfDoubleAfterDecimal()
 	{
-		assertEquals(1, Util.lengthOfDoubleAfterDecimalPoint(0));
-		assertEquals(6, Util.lengthOfDoubleAfterDecimalPoint(0.123456));
+		assertEquals(1, Util.lengthOfDoubleAfterDecimal(0));
+		assertEquals(6, Util.lengthOfDoubleAfterDecimal(0.123456));
 	}
 }

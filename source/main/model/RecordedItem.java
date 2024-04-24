@@ -35,4 +35,9 @@ public class RecordedItem
 	{
 		return quantity;
 	}
+
+	public double calculateCombinedPrice()
+	{
+		return info.getPrice() * quantity;
+	}
 }

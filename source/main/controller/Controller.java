@@ -21,17 +21,21 @@ public class Controller
 		currentSale = new Sale();
 	}
 
-	public boolean scanItem(ItemIdDTO itemId)
+	public ItemInfoDTO scanItem(ItemIdDTO itemId, int quantity)
 	{
 		ItemInfoDTO itemInfo = inventory.retrieveItemInfo(itemId);
 
 		if (itemInfo.isValid())
 		{
-			currentSale.recordItem(itemId, itemInfo, 1);
-			return true;
+			currentSale.recordItem(itemId, itemInfo, quantity);
 		}
 
-		return false;
+		return itemInfo;
+	}
+
+	public ItemInfoDTO scanItem(ItemIdDTO itemId)
+	{
+		return scanItem(itemId, 1);
 	}
 
 	public void endSale()

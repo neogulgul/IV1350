@@ -12,10 +12,10 @@ public class ExternalInventorySystem
 
 	public ExternalInventorySystem()
 	{
-		itemStock.put(new ItemIdDTO("Frog"), new ItemInfoDTO("Frog", "A frog :o", 9.99, 0.10));
-		itemStock.put(new ItemIdDTO("Toaster"), new ItemInfoDTO("Toaster", "A frog :o", 10.10, 0.10));
-		itemStock.put(new ItemIdDTO("Banana"), new ItemInfoDTO("Banana", "A frog :o", 123.456, 0.10));
-		itemStock.put(new ItemIdDTO("Pencil"), new ItemInfoDTO("Pencil", "A frog :o", 1.00, 0.10));
+		itemStock.put(new ItemIdDTO("frog"), new ItemInfoDTO("Frog", "A frog :o", 9.99, 0.10));
+		itemStock.put(new ItemIdDTO("toaster"), new ItemInfoDTO("Toaster", "You can make toast ᕕ(ᐛ)ᕗ", 10.10, 0.10));
+		itemStock.put(new ItemIdDTO("banan"), new ItemInfoDTO("Banana", "Be like monke. Eat banana.", 123.456, 0.10));
+		itemStock.put(new ItemIdDTO("pen"), new ItemInfoDTO("Pencil", "Write stuff with this.", 1.0, 0.10));
 	}
 
 	public ItemInfoDTO retrieveItemInfo(ItemIdDTO itemId)

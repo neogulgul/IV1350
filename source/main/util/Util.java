@@ -1,14 +1,21 @@
 package se.kth.iv1350.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 public class Util
 {
-	private static final String REGEX_DOT = "\\.";
+	public static final String REGEX_DOT                = "\\.";
+	public static final String REGEX_SEQUENCE_OF_SPACES = "[ ]+";
 
 	private Util()
 	{}
 
 	public static String charRepeat(char character, int length)
 	{
+		if (length <= 0) return "";
+
 		StringBuilder builder = new StringBuilder(length);
 		for (int i = 0; i < length; i++)
 		{
@@ -22,12 +29,12 @@ public class Util
 		return String.valueOf(i).length();
 	}
 
-	public static int lengthOfDoubleBeforeDecimalPoint(double d)
+	public static int lengthOfDoubleBeforeDecimal(double d)
 	{
 		return doubleToString(d).split(REGEX_DOT)[0].length();
 	}
 
-	public static int lengthOfDoubleAfterDecimalPoint(double d)
+	public static int lengthOfDoubleAfterDecimal(double d)
 	{
 		return doubleToString(d).split(REGEX_DOT)[1].length();
 	}
@@ -45,5 +52,24 @@ public class Util
 			str += ".0";
 		}
 		return str;
+	}
+
+	public static String readFromFile(String filepath)
+	{
+		try
+		{
+			String contents = "";
+			File file = new File(filepath);
+			Scanner scanner = new Scanner(file);
+			while (scanner.hasNextLine())
+			{
+				contents += scanner.nextLine() + "\n";
+			}
+			return contents;
+		}
+		catch (FileNotFoundException e)
+		{
+			return "";
+		}
 	}
 };

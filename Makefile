@@ -20,7 +20,6 @@ main_files        := $(shell find $(main_source_dir) -type f -name *.java)
 test_files        := $(shell find $(test_source_dir) -type f -name *.java)
 
 compile: clean-target
-	clear
 	# ┌────────────────────────┐
 	# │ Compiling main classes │
 	# └────────────────────────┘
@@ -33,6 +32,10 @@ compile: clean-target
 	# │ Running tests │
 	# └───────────────┘
 	./test.sh
+	# ┌─────────────────┐
+	# │ Running program │
+	# └─────────────────┘
+	./run.sh
 
 docs: clean-documentation
 	javadoc $(main_source_dir)/*.java -d $(documentation_dir)

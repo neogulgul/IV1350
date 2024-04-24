@@ -1,0 +1,4 @@
+frog     123
+toaster    1
+banan   1000
+pen      -10

@@ -8,9 +8,6 @@ import se.kth.iv1350.util.Util;
 public class Sale
 {
 	private Map<ItemIdDTO, RecordedItem> recordedItems = new HashMap<>();
-	private int longestNameLengthOfAnyRecordedItem   = 0;
-	private int longestPriceBeforeDecimalPointLength = 0;
-	private int longestPriceAfterDecimalPointLength  = 0;
 
 	public Sale()
 	{}
@@ -30,30 +27,6 @@ public class Sale
 		recordedItems.replace(itemId, recordedItem);
 	}
 
-	private void checkToUpdateLongestNameOfAnyRecordedItem(int lengthToCompare)
-	{
-		if (lengthToCompare > longestNameLengthOfAnyRecordedItem)
-		{
-			longestNameLengthOfAnyRecordedItem = lengthToCompare;
-		}
-	}
-
-	private void checkToUpdateLongestPriceBeforeDecimalPointLength(int lengthToCompare)
-	{
-		if (lengthToCompare > longestPriceBeforeDecimalPointLength)
-		{
-			longestPriceBeforeDecimalPointLength = lengthToCompare;
-		}
-	}
-
-	private void checkToUpdateLongestPriceAfterDecimalPointLength(int lengthToCompare)
-	{
-		if (lengthToCompare > longestPriceAfterDecimalPointLength)
-		{
-			longestPriceAfterDecimalPointLength = lengthToCompare;
-		}
-	}
-
 	public void recordItem(ItemIdDTO itemId, ItemInfoDTO itemInfo, int quantity)
 	{
 		if (previouslyRecorded(itemId))
@@ -62,36 +35,57 @@ public class Sale
 		}
 		else
 		{
-			checkToUpdateLongestNameOfAnyRecordedItem(itemInfo.getName().length());
-			checkToUpdateLongestPriceBeforeDecimalPointLength(Util.lengthOfDoubleBeforeDecimalPoint(itemInfo.getPrice()));
-			checkToUpdateLongestPriceAfterDecimalPointLength(Util.lengthOfDoubleAfterDecimalPoint(itemInfo.getPrice()));
-
 			recordedItems.put(itemId, new RecordedItem(itemInfo, quantity));
 		}
 	}
 
-	private int findLargestQuantity()
+	private SaleStringLengthInfoDTO createSaleStringLengthInfoDTO()
 	{
-		int largestQuantity = 0;
+		int lengthOfLongestName                             = 0;
+		int lengthOfLongestQuantity                         = 0;
+		int lengthOfLongestPriceBeforeDecimalLength         = 0;
+		int lengthOfLongestPriceAfterDecimalLength          = 0;
+		int lengthOfLongestCombinedPriceBeforeDecimalLength = 0;
+		int lengthOfLongestCombinedPriceAfterDecimalLength  = 0;
+
 		for (RecordedItem item : recordedItems.values())
 		{
-			int quantityToCompareAgainst = item.getQuantity();
-			if (quantityToCompareAgainst > largestQuantity)
-			{
-				largestQuantity = quantityToCompareAgainst;
-			}
+			ItemInfoDTO info = item.getInfo();
+
+			int currentNameLenght = info.getName().length();
+			int currentQuantityLength = Util.lengthOfInt(item.getQuantity());
+
+			double price         = info.getPrice();
+			double combinedPrice = item.calculateCombinedPrice();
+
+			int currentPriceBeforeDecimalLength         = Util.lengthOfDoubleBeforeDecimal(price);
+			int currentPriceAfterDecimalLength          = Util.lengthOfDoubleAfterDecimal(price);
+			int currentCombinedPriceBeforeDecimalLength = Util.lengthOfDoubleBeforeDecimal(combinedPrice);
+			int currentCombinedPriceAfterDecimalLength  = Util.lengthOfDoubleAfterDecimal(combinedPrice);
+
+			lengthOfLongestName                             = Math.max(currentNameLenght, lengthOfLongestName);
+			lengthOfLongestQuantity                         = Math.max(currentQuantityLength, lengthOfLongestQuantity);
+			lengthOfLongestPriceBeforeDecimalLength         = Math.max(currentPriceBeforeDecimalLength, lengthOfLongestPriceBeforeDecimalLength);
+			lengthOfLongestPriceAfterDecimalLength          = Math.max(currentPriceAfterDecimalLength, lengthOfLongestPriceAfterDecimalLength);
+			lengthOfLongestCombinedPriceBeforeDecimalLength = Math.max(currentCombinedPriceBeforeDecimalLength, lengthOfLongestCombinedPriceBeforeDecimalLength);
+			lengthOfLongestCombinedPriceAfterDecimalLength  = Math.max(currentCombinedPriceAfterDecimalLength, lengthOfLongestCombinedPriceAfterDecimalLength);
 		}
-		return largestQuantity;
+
+		return new SaleStringLengthInfoDTO(
+			lengthOfLongestName,
+			lengthOfLongestQuantity,
+			lengthOfLongestPriceBeforeDecimalLength,
+			lengthOfLongestPriceAfterDecimalLength,
+			lengthOfLongestCombinedPriceBeforeDecimalLength,
+			lengthOfLongestCombinedPriceAfterDecimalLength
+		);
 	}
 
 	public SaleInfoDTO createInfoDTO()
 	{
 		return new SaleInfoDTO(
 			recordedItems,
-			longestNameLengthOfAnyRecordedItem,
-			longestPriceBeforeDecimalPointLength,
-			longestPriceAfterDecimalPointLength,
-			findLargestQuantity()
+			createSaleStringLengthInfoDTO()
 		);
 	}
 }

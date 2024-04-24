@@ -44,4 +44,10 @@ public class ItemIdDTO
 	{
 		return Objects.hash(identifier);
 	}
+
+	@Override
+	public String toString()
+	{
+		return identifier;
+	}
 }
