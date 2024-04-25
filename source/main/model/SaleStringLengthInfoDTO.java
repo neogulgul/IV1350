@@ -4,26 +4,26 @@ public class SaleStringLengthInfoDTO
 {
 	private int lengthOfLongestName;
 	private int lengthOfLongestQuantity;
-	private int lengthOfLongestPriceBeforeDecimal;
-	private int lengthOfLongestPriceAfterDecimal;
-	private int lengthOfLongestCombinedPriceBeforeDecimal;
-	private int lengthOfLongestCombinedPriceAfterDecimal;
+	private int lengthOfLongestCostBeforeDecimal;
+	private int lengthOfLongestCostAfterDecimal;
+	private int lengthOfLongestCombinedCostBeforeDecimal;
+	private int lengthOfLongestCombinedCostAfterDecimal;
 
 	public SaleStringLengthInfoDTO(
 		int lengthOfLongestName,
 		int lengthOfLongestQuantity,
-		int lengthOfLongestPriceBeforeDecimal,
-		int lengthOfLongestPriceAfterDecimal,
-		int lengthOfLongestCombinedPriceBeforeDecimal,
-		int lengthOfLongestCombinedPriceAfterDecimal
+		int lengthOfLongestCostBeforeDecimal,
+		int lengthOfLongestCostAfterDecimal,
+		int lengthOfLongestCombinedCostBeforeDecimal,
+		int lengthOfLongestCombinedCostAfterDecimal
 	)
 	{
-		this.lengthOfLongestName                       = lengthOfLongestName;
-		this.lengthOfLongestQuantity                   = lengthOfLongestQuantity;
-		this.lengthOfLongestPriceBeforeDecimal         = lengthOfLongestPriceBeforeDecimal;
-		this.lengthOfLongestPriceAfterDecimal          = lengthOfLongestPriceAfterDecimal;
-		this.lengthOfLongestCombinedPriceBeforeDecimal = lengthOfLongestCombinedPriceBeforeDecimal;
-		this.lengthOfLongestCombinedPriceAfterDecimal  = lengthOfLongestCombinedPriceAfterDecimal;
+		this.lengthOfLongestName                      = lengthOfLongestName;
+		this.lengthOfLongestQuantity                  = lengthOfLongestQuantity;
+		this.lengthOfLongestCostBeforeDecimal         = lengthOfLongestCostBeforeDecimal;
+		this.lengthOfLongestCostAfterDecimal          = lengthOfLongestCostAfterDecimal;
+		this.lengthOfLongestCombinedCostBeforeDecimal = lengthOfLongestCombinedCostBeforeDecimal;
+		this.lengthOfLongestCombinedCostAfterDecimal  = lengthOfLongestCombinedCostAfterDecimal;
 	}
 
 	public int getLengthOfLongestName()
@@ -36,23 +36,23 @@ public class SaleStringLengthInfoDTO
 		return lengthOfLongestQuantity;
 	}
 
-	public int getLengthOfLongestPriceBeforeDecimal()
+	public int getLengthOfLongestCostBeforeDecimal()
 	{
-		return lengthOfLongestPriceBeforeDecimal;
+		return lengthOfLongestCostBeforeDecimal;
 	}
 
-	public int getLengthOfLongestPriceAfterDecimal()
+	public int getLengthOfLongestCostAfterDecimal()
 	{
-		return lengthOfLongestPriceAfterDecimal;
+		return lengthOfLongestCostAfterDecimal;
 	}
 
-	public int getLengthOfLongestCombinedPriceBeforeDecimal()
+	public int getLengthOfLongestCombinedCostBeforeDecimal()
 	{
-		return lengthOfLongestCombinedPriceBeforeDecimal;
+		return lengthOfLongestCombinedCostBeforeDecimal;
 	}
 
-	public int getLengthOfLongestCombinedPriceAfterDecimal()
+	public int getLengthOfLongestCombinedCostAfterDecimal()
 	{
-		return lengthOfLongestCombinedPriceAfterDecimal;
+		return lengthOfLongestCombinedCostAfterDecimal;
 	}
 }

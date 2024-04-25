@@ -21,7 +21,7 @@ public class Controller
 		currentSale = new Sale();
 	}
 
-	public ItemInfoDTO scanItem(ItemIdDTO itemId, int quantity)
+	public ScanInfoDTO scanItem(ItemIdDTO itemId, int quantity)
 	{
 		ItemInfoDTO itemInfo = inventory.retrieveItemInfo(itemId);
 
@@ -30,22 +30,25 @@ public class Controller
 			currentSale.recordItem(itemId, itemInfo, quantity);
 		}
 
-		return itemInfo;
+		return new ScanInfoDTO(itemId, itemInfo, quantity, currentSale.getCostOfEntireSale(), currentSale.getVatOfEntireSale());
 	}
 
-	public ItemInfoDTO scanItem(ItemIdDTO itemId)
+	public ScanInfoDTO scanItem(ItemIdDTO itemId)
 	{
 		return scanItem(itemId, 1);
 	}
 
 	public void endSale()
-	{}
+	{
+		currentSale.logTimeOfSale();
+	}
 
 	public void checkForDiscount()
 	{}
 
-	public void completeTransaction()
+	public void completeTransaction(double payment)
 	{
+		currentSale.handlePayment(payment);
 		printer.printReceipt(currentSale.createInfoDTO());
 	}
 }

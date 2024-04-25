@@ -40,4 +40,9 @@ public class RecordedItem
 	{
 		return info.getPrice() * quantity;
 	}
+
+	public double calculateCombinedCostIncludingVat()
+	{
+		return info.calculateCostIncludingVat() * quantity;
+	}
 }

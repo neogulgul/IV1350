@@ -44,4 +44,14 @@ public class ItemInfoDTO
 	{
 		return vat;
 	}
+
+	public double calculateCostOfVat()
+	{
+		return price * vat;
+	}
+
+	public double calculateCostIncludingVat()
+	{
+		return price + calculateCostOfVat();
+	}
 }

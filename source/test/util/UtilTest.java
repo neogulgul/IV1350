@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import se.kth.iv1350.util.Util;
+import se.kth.iv1350.constants.Constants;
 
 class UtilTest
 {
@@ -44,5 +45,18 @@ class UtilTest
 	{
 		assertEquals(1, Util.lengthOfDoubleAfterDecimal(0));
 		assertEquals(6, Util.lengthOfDoubleAfterDecimal(0.123456));
+	}
+
+	@Test
+	public void replaceDecimalOfDoubleTest()
+	{
+		assertEquals("123" + Constants.DECIMAL_MARK + "456", Util.replaceDecimalOfDouble(123.456, Constants.DECIMAL_MARK));
+	}
+
+	@Test
+	public void roundDoubleTest()
+	{
+		assertEquals(12.35, Util.roundDouble(12.3456789, 2));
+		assertEquals(265.47, Util.roundDouble(265.47494, 2));
 	}
 }

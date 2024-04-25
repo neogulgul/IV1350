@@ -19,31 +19,38 @@ test_target_dir   := $(target_dir)/test
 main_files        := $(shell find $(main_source_dir) -type f -name *.java)
 test_files        := $(shell find $(test_source_dir) -type f -name *.java)
 
+goods_filepath    := "goods.txt"
+
+# foreground colors
+ANSI_FG_RED       := "31"
+ANSI_FG_GREEN     := "32"
+ANSI_FG_YELLOW    := "33"
+ANSI_FG_BLUE      := "34"
+ANSI_FG_MAGENTA   := "35"
+ANSI_FG_CYAN      := "36"
+
 compile: clean-target
-	# ┌────────────────────────┐
-	# │ Compiling main classes │
-	# └────────────────────────┘
+	@./colored_box_prompt.sh "Compiling main classes" $(ANSI_FG_YELLOW)
 	javac -cp $(dependencies) -d $(main_target_dir) $(main_files)
-	# ┌────────────────────────┐
-	# │ Compiling test classes │
-	# └────────────────────────┘
+
+	@./colored_box_prompt.sh "Compiling test classes" $(ANSI_FG_YELLOW)
 	javac -cp $(dependencies):$(main_target_dir) -d $(test_target_dir) $(test_files)
-	# ┌───────────────┐
-	# │ Running tests │
-	# └───────────────┘
+
+	@./colored_box_prompt.sh "Running tests" $(ANSI_FG_MAGENTA)
 	./test.sh
-	# ┌─────────────────┐
-	# │ Running program │
-	# └─────────────────┘
-	./run.sh
+
+	@./colored_box_prompt.sh "Running program" $(ANSI_FG_GREEN)
+	./run.sh $(goods_filepath)
 
 docs: clean-documentation
 	javadoc $(main_source_dir)/*.java -d $(documentation_dir)
 
 clean-target:
+	@./colored_box_prompt.sh "Removing target directory" $(ANSI_FG_RED)
 	rm -rf $(target_dir)
 
 clean-documentation:
+	@./colored_box_prompt.sh "Removing documentation directory" $(ANSI_FG_RED)
 	rm -rf $(documentation_dir)
 
 clean-all: clean-target clean-documentation

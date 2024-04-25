@@ -7,10 +7,17 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		Controller controller = new Controller();
+		if (args.length == 1)
+		{
+			Controller controller = new Controller();
 
-		View view = new View(controller);
+			View view = new View(controller, args[0]);
 
-		view.run();
+			view.run();
+		}
+		else
+		{
+			System.out.println("Pass in one argument (path/to/goods). No more, no less.");
+		}
 	}
 }

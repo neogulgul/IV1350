@@ -2,15 +2,32 @@ package se.kth.iv1350.model;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Calendar;
 
 import se.kth.iv1350.util.Util;
+import se.kth.iv1350.constants.Constants;
 
 public class Sale
 {
 	private Map<ItemIdDTO, RecordedItem> recordedItems = new HashMap<>();
+	private double costOfEntireSale = 0;
+	private double vatOfEntireSale  = 0;
+	private double paymentFromCustomer;
+	private double changeForCustomer;
+	private Calendar timeOfSale;
 
 	public Sale()
 	{}
+
+	public double getCostOfEntireSale()
+	{
+		return costOfEntireSale;
+	}
+
+	public double getVatOfEntireSale()
+	{
+		return vatOfEntireSale;
+	}
 
 	private boolean previouslyRecorded(ItemIdDTO itemId)
 	{
@@ -29,6 +46,8 @@ public class Sale
 
 	public void recordItem(ItemIdDTO itemId, ItemInfoDTO itemInfo, int quantity)
 	{
+		if (quantity <= 0) return;
+
 		if (previouslyRecorded(itemId))
 		{
 			incrementQuantity(itemId, quantity);
@@ -37,47 +56,50 @@ public class Sale
 		{
 			recordedItems.put(itemId, new RecordedItem(itemInfo, quantity));
 		}
+
+		costOfEntireSale += itemInfo.calculateCostIncludingVat() * quantity;
+		vatOfEntireSale  += itemInfo.calculateCostOfVat() * quantity;
 	}
 
 	private SaleStringLengthInfoDTO createSaleStringLengthInfoDTO()
 	{
-		int lengthOfLongestName                             = 0;
-		int lengthOfLongestQuantity                         = 0;
-		int lengthOfLongestPriceBeforeDecimalLength         = 0;
-		int lengthOfLongestPriceAfterDecimalLength          = 0;
-		int lengthOfLongestCombinedPriceBeforeDecimalLength = 0;
-		int lengthOfLongestCombinedPriceAfterDecimalLength  = 0;
+		int lengthOfLongestName                      = 0;
+		int lengthOfLongestQuantity                  = 0;
+		int lengthOfLongestCostBeforeDecimal         = 0;
+		int lengthOfLongestCostAfterDecimal          = 0;
+		int lengthOfLongestCombinedCostBeforeDecimal = 0;
+		int lengthOfLongestCombinedCostAfterDecimal  = 0;
 
-		for (RecordedItem item : recordedItems.values())
+		for (RecordedItem currentItem : recordedItems.values())
 		{
-			ItemInfoDTO info = item.getInfo();
+			ItemInfoDTO currentInfo = currentItem.getInfo();
 
-			int currentNameLenght = info.getName().length();
-			int currentQuantityLength = Util.lengthOfInt(item.getQuantity());
+			int lengthOfCurrentName     = currentInfo.getName().length();
+			int lengthOfCurrentQuantity = Util.lengthOfInt(currentItem.getQuantity());
 
-			double price         = info.getPrice();
-			double combinedPrice = item.calculateCombinedPrice();
+			double currentCost         = Util.roundDouble(currentInfo.calculateCostIncludingVat(), Constants.DECIMAL_PLACE_PRECISION);
+			double currentCombinedCost = Util.roundDouble(currentItem.calculateCombinedCostIncludingVat(), Constants.DECIMAL_PLACE_PRECISION);
 
-			int currentPriceBeforeDecimalLength         = Util.lengthOfDoubleBeforeDecimal(price);
-			int currentPriceAfterDecimalLength          = Util.lengthOfDoubleAfterDecimal(price);
-			int currentCombinedPriceBeforeDecimalLength = Util.lengthOfDoubleBeforeDecimal(combinedPrice);
-			int currentCombinedPriceAfterDecimalLength  = Util.lengthOfDoubleAfterDecimal(combinedPrice);
+			int lengthOfCurrentCostBeforeDecimal         = Util.lengthOfDoubleBeforeDecimal(currentCost);
+			int lengthOfCurrentCostAfterDecimal          = Util.lengthOfDoubleAfterDecimal(currentCost);
+			int lengthOfCurrentCombinedCostBeforeDecimal = Util.lengthOfDoubleBeforeDecimal(currentCombinedCost);
+			int lengthOfCurrentCombinedCostAfterDecimal  = Util.lengthOfDoubleAfterDecimal(currentCombinedCost);
 
-			lengthOfLongestName                             = Math.max(currentNameLenght, lengthOfLongestName);
-			lengthOfLongestQuantity                         = Math.max(currentQuantityLength, lengthOfLongestQuantity);
-			lengthOfLongestPriceBeforeDecimalLength         = Math.max(currentPriceBeforeDecimalLength, lengthOfLongestPriceBeforeDecimalLength);
-			lengthOfLongestPriceAfterDecimalLength          = Math.max(currentPriceAfterDecimalLength, lengthOfLongestPriceAfterDecimalLength);
-			lengthOfLongestCombinedPriceBeforeDecimalLength = Math.max(currentCombinedPriceBeforeDecimalLength, lengthOfLongestCombinedPriceBeforeDecimalLength);
-			lengthOfLongestCombinedPriceAfterDecimalLength  = Math.max(currentCombinedPriceAfterDecimalLength, lengthOfLongestCombinedPriceAfterDecimalLength);
+			lengthOfLongestName                      = Math.max(lengthOfLongestName                     , lengthOfCurrentName);
+			lengthOfLongestQuantity                  = Math.max(lengthOfLongestQuantity                 , lengthOfCurrentQuantity);
+			lengthOfLongestCostBeforeDecimal         = Math.max(lengthOfLongestCostBeforeDecimal        , lengthOfCurrentCostBeforeDecimal);
+			lengthOfLongestCostAfterDecimal          = Math.max(lengthOfLongestCostAfterDecimal         , lengthOfCurrentCostAfterDecimal);
+			lengthOfLongestCombinedCostBeforeDecimal = Math.max(lengthOfLongestCombinedCostBeforeDecimal, lengthOfCurrentCombinedCostBeforeDecimal);
+			lengthOfLongestCombinedCostAfterDecimal  = Math.max(lengthOfLongestCombinedCostAfterDecimal , lengthOfCurrentCombinedCostAfterDecimal);
 		}
 
 		return new SaleStringLengthInfoDTO(
 			lengthOfLongestName,
 			lengthOfLongestQuantity,
-			lengthOfLongestPriceBeforeDecimalLength,
-			lengthOfLongestPriceAfterDecimalLength,
-			lengthOfLongestCombinedPriceBeforeDecimalLength,
-			lengthOfLongestCombinedPriceAfterDecimalLength
+			lengthOfLongestCostBeforeDecimal,
+			lengthOfLongestCostAfterDecimal,
+			lengthOfLongestCombinedCostBeforeDecimal,
+			lengthOfLongestCombinedCostAfterDecimal
 		);
 	}
 
@@ -85,7 +107,23 @@ public class Sale
 	{
 		return new SaleInfoDTO(
 			recordedItems,
+			costOfEntireSale,
+			vatOfEntireSale,
+			paymentFromCustomer,
+			changeForCustomer,
+			timeOfSale,
 			createSaleStringLengthInfoDTO()
 		);
+	}
+
+	public void logTimeOfSale()
+	{
+		timeOfSale = Calendar.getInstance();
+	}
+
+	public void handlePayment(double payment)
+	{
+		paymentFromCustomer = payment;
+		changeForCustomer   = payment - costOfEntireSale;
 	}
 }

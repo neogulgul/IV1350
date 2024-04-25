@@ -1,4 +1,5 @@
-frog     123
-toaster    1
-banan   1000
-pen      -10
+appleRed     10
+appleGreen  120
+appleMystery  1
+bananaNormal 10
+bananaGolden  1
