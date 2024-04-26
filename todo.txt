@@ -1,1 +1,69 @@
-write documentation and more tests
+┌───────────────┐
+│ DOCUMENTATION │
+└───────────────┘
+[x] constants
+	[x] Constants.java
+
+[ ] controller
+	[ ] Controller.java
+
+[ ] integration
+	[ ] DiscountDatabase.java
+	[ ] ExternalAccountingSystem.java
+	[ ] ExternalInventorySystem.java
+	[ ] Printer.java
+	[ ] Register.java
+	[ ] SalesLog.java
+
+[ ] model
+	[ ] ItemIdDTO.java
+	[ ] ItemInfoDTO.java
+	[ ] RecordedItem.java
+	[ ] SaleInfoDTO.java
+	[ ] Sale.java
+	[ ] SaleStringLengthInfoDTO.java
+	[ ] ScanInfoDTO.java
+
+[ ] startup
+	[ ] Main.java
+
+[ ] util
+	[ ] Util.java
+
+[ ] view
+	[ ] View.java
+
+┌───────┐
+│ TESTS │
+└───────┘
+[x] constants
+	[x] Constants.java
+
+[ ] controller
+	[ ] Controller.java
+
+[ ] integration
+	[ ] DiscountDatabase.java
+	[ ] ExternalAccountingSystem.java
+	[ ] ExternalInventorySystem.java
+	[ ] Printer.java
+	[ ] Register.java
+	[ ] SalesLog.java
+
+[ ] model
+	[ ] ItemIdDTO.java
+	[ ] ItemInfoDTO.java
+	[ ] RecordedItem.java
+	[ ] SaleInfoDTO.java
+	[ ] Sale.java
+	[ ] SaleStringLengthInfoDTO.java
+	[ ] ScanInfoDTO.java
+
+[ ] startup
+	[ ] Main.java
+
+[ ] util
+	[ ] Util.java
+
+[ ] view
+	[ ] View.java

@@ -13,7 +13,7 @@ public class Main
 
 		if (args.length == 1 && args[0].equals("inventory"))
 		{
-			System.out.println(controller.getItemStockStringFromInventory());
+			controller.printInventoryItemStock();
 		}
 		else if (args.length == 2)
 		{

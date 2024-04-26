@@ -1,5 +1,8 @@
 package se.kth.iv1350.controller;
 
+import java.util.Map;
+import java.util.HashMap;
+
 import se.kth.iv1350.model.*;
 import se.kth.iv1350.integration.*;
 
@@ -24,9 +27,25 @@ public class Controller
 		printer          = new Printer();
 	}
 
-	public String getItemStockStringFromInventory()
+	public void printInventoryItemStock()
 	{
-		return inventory.getItemStockString();
+		Map<ItemIdDTO, ItemInfoDTO> itemStock = inventory.getItemStock();
+
+		System.out.println("ID\tINFO");
+
+		for (ItemIdDTO itemId : itemStock.keySet())
+		{
+			ItemInfoDTO itemInfo = itemStock.get(itemId);
+
+			System.out.println();
+
+			System.out.println(itemId);
+			System.out.println("\tName             : " + itemInfo.getName());
+			System.out.println("\tPrice            : " + itemInfo.makePriceString());
+			System.out.println("\tVAT              : " + itemInfo.makeVatString());
+			System.out.println("\tCost (incl. VAT) : " + itemInfo.makeCostIncludingVatString());
+			System.out.println("\tDescription      : " + itemInfo.getDescription());
+		}
 	}
 
 	public void startSale()

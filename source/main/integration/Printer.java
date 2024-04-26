@@ -89,6 +89,9 @@ public class Printer
 		int combinedCostAfterDecimalLength
 	)
 	{
+		costAfterDecimalLength         = Math.max(costAfterDecimalLength        , Constants.DECIMAL_PLACE_PRECISION);
+		combinedCostAfterDecimalLength = Math.max(combinedCostAfterDecimalLength, Constants.DECIMAL_PLACE_PRECISION);
+
 		return nameLength
 		     + quantityLength
 		     + costBeforeDecimalLength
@@ -114,9 +117,9 @@ public class Printer
 		);
 
 		totalLengthInsideReceipt = Util.biggestInt(
-			RECEIPT_BEGIN_RECEIPT_MESSAGE.length()  + RECEIPT_BORDER_PADDING * 2,
-			RECEIPT_END_RECEIPT_MESSAGE.length()    + RECEIPT_BORDER_PADDING * 2,
-			lengthOfLongestTwoPartRow               + RECEIPT_BORDER_PADDING * 2,
+			RECEIPT_BEGIN_RECEIPT_MESSAGE.length() + RECEIPT_BORDER_PADDING * 2,
+			RECEIPT_END_RECEIPT_MESSAGE.length()   + RECEIPT_BORDER_PADDING * 2,
+			lengthOfLongestTwoPartRow              + RECEIPT_BORDER_PADDING * 2,
 			lengthOfTheLongestRecordedItemRow
 		);
 

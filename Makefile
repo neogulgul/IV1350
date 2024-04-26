@@ -41,7 +41,7 @@ compile: clean-target
 	./run.sh
 
 docs: clean-documentation
-	javadoc $(main_source_dir)/*.java -d $(documentation_dir)
+	javadoc -d $(documentation_dir) $(main_files)
 
 clean-target:
 	@./colored_box_prompt.sh "Removing target directory" $(ANSI_FG_RED)

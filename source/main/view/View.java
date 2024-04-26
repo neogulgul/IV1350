@@ -60,10 +60,23 @@ public class View
 			if (lineSplit.length == 2)
 			{
 				ItemIdDTO itemId = new ItemIdDTO(lineSplit[0]);
-				int quantity = Math.max(1, Integer.parseInt(lineSplit[1]));
 
-				ScanInfoDTO scanInfo = controller.scanItem(itemId, quantity);
-				handleScanInfo(scanInfo);
+				int quantity;
+
+				try
+				{
+					quantity = Math.max(1, Integer.parseInt(lineSplit[1]));
+				}
+				catch (NumberFormatException e)
+				{
+					quantity = 0;
+				}
+
+				if (quantity > 0)
+				{
+					ScanInfoDTO scanInfo = controller.scanItem(itemId, quantity);
+					handleScanInfo(scanInfo);
+				}
 			}
 		}
 	}
@@ -72,7 +85,16 @@ public class View
 	{
 		String paymentText = Util.readFromFile(paymentFilepath);
 
-		double payment = Double.parseDouble(paymentText);
+		double payment;
+
+		try
+		{
+			payment = Double.parseDouble(paymentText);
+		}
+		catch (NumberFormatException e)
+		{
+			payment = 0;
+		}
 
 		System.out.println("Customer pays: " + Util.asCurrency(Util.standardDoubleString(payment)));
 

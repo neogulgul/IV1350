@@ -65,7 +65,7 @@ public class ExternalInventorySystem
 			)
 		);
 		itemStock.put(
-			new ItemIdDTO("eggFactory"),
+			new ItemIdDTO("eggDispenser"),
 			new ItemInfoDTO(
 				"Chicken",
 				"Produces eggs.",
@@ -73,6 +73,11 @@ public class ExternalInventorySystem
 				Vat.MEDIUM
 			)
 		);
+	}
+
+	public Map<ItemIdDTO, ItemInfoDTO> getItemStock()
+	{
+		return itemStock;
 	}
 
 	public ItemInfoDTO retrieveItemInfo(ItemIdDTO itemId)
@@ -89,27 +94,5 @@ public class ExternalInventorySystem
 
 	public void updateQuantity(SaleInfoDTO saleInfo)
 	{
-	}
-
-	public String getItemStockString()
-	{
-		String itemStockString = "";
-
-		itemStockString += "ID\tINFO\n";
-		for (ItemIdDTO itemId : itemStock.keySet())
-		{
-			ItemInfoDTO itemInfo = itemStock.get(itemId);
-
-			itemStockString += "\n";
-
-			itemStockString += itemId                                                          + "\n";
-			itemStockString += "\tName             : " + itemInfo.getName()                    + "\n";
-			itemStockString += "\tPrice            : " + itemInfo.makePriceString()            + "\n";
-			itemStockString += "\tVAT              : " + itemInfo.makeVatString()              + "\n";
-			itemStockString += "\tCost (incl. VAT) : " + itemInfo.makeCostIncludingVatString() + "\n";
-			itemStockString += "\tDescription      : " + itemInfo.getDescription()             + "\n";
-		}
-
-		return itemStockString;
 	}
 }
