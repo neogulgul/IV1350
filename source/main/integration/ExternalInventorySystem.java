@@ -25,7 +25,7 @@ public class ExternalInventorySystem
 				"Green Apple",
 				"An apple that is green.",
 				2.99,
-				Vat.SMALL
+				Vat.LARGE
 			)
 		);
 		itemStock.put(
@@ -34,7 +34,7 @@ public class ExternalInventorySystem
 				"Red Apple",
 				"An apple that is red.",
 				4.99,
-				Vat.SMALL
+				Vat.LARGE
 			)
 		);
 		itemStock.put(
@@ -52,7 +52,7 @@ public class ExternalInventorySystem
 				"Banana",
 				"Loved by monkeys all over the world.",
 				8.00,
-				Vat.SMALL
+				Vat.LARGE
 			)
 		);
 		itemStock.put(

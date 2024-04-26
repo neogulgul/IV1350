@@ -1,5 +1,8 @@
 package se.kth.iv1350.constants;
 
+/**
+ * {@link Constants} contains constants that are used throughout various parts of the program.
+ */
 public class Constants
 {
 	/**
@@ -7,11 +10,11 @@ public class Constants
 	 */
 	public static final int DECIMAL_PLACE_PRECISION = 2;
 	/**
-	 * The character that replaces the default decimal '.' of any double converted to a string.
+	 * The standard character that replaces the default decimal '.' of any double converted to a string.
 	 */
 	public static final char DECIMAL_MARK = '.';
 	/**
-	 * The code that goes after a currency to indicate what type it is.
+	 * The standard code that goes after a currency to indicate what type it is.
 	 */
 	public static final String CURRENCY_CODE = "SEK";
 	/**

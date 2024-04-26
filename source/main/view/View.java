@@ -8,10 +8,20 @@ import se.kth.iv1350.model.ScanInfoDTO;
 import se.kth.iv1350.util.Util;
 import se.kth.iv1350.constants.Constants;
 
+/**
+ * The {@link View} bridges the gap between the user and the program.
+ * In this case however, the {@link View} is not entirely implemented.
+ * It reads the goods and the payment that a customer would have brought from two individual text files.
+ */
 public class View
 {
 	private Controller controller;
 
+	/**
+	 * {@link View} constructor.
+	 *
+	 * @param controller Responsible for bridging the gap between other parts of the program.
+	 */
 	public View(Controller controller)
 	{
 		this.controller = controller;
@@ -106,6 +116,12 @@ public class View
 		System.out.println("Insufficient payment >:(");
 	}
 
+	/**
+	 * Used to run the bulk of the program.
+	 *
+	 * @param goodsFilepath   The filepath to the textfile containing information about the customer goods.
+	 * @param paymentFilepath The filepath to the textfile containing information about the customer payment.
+	 */
 	public void run(String goodsFilepath, String paymentFilepath)
 	{
 		controller.startSale();

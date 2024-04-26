@@ -174,7 +174,12 @@ public class Printer
 		int hour     = timeOfSale.get(Calendar.HOUR_OF_DAY);
 		int minute   = timeOfSale.get(Calendar.MINUTE);
 
-		timeOfSaleString = String.format("%s %d %d %s:%s", month, day, year, Util.timeInt(hour), Util.timeInt(minute));
+		timeOfSaleString = String.format(
+			"%s %d %d %s:%s",
+			month, day, year,
+			Util.intToStringOfAtleastTwoDigits(hour),
+			Util.intToStringOfAtleastTwoDigits(minute)
+		);
 	}
 
 	private void printReceiptTop()

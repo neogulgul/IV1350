@@ -3,8 +3,14 @@ package se.kth.iv1350.startup;
 import se.kth.iv1350.controller.Controller;
 import se.kth.iv1350.view.View;
 
+/**
+ * Contains the entry point for the program.
+ */
 public class Main
 {
+	/**
+	 * Entry point for the program.
+	 */
 	public static void main(String[] args)
 	{
 		Controller controller = new Controller();

@@ -4,8 +4,8 @@
 [x] constants
 	[x] Constants.java
 
-[ ] controller
-	[ ] Controller.java
+[x] controller
+	[x] Controller.java
 
 [ ] integration
 	[ ] DiscountDatabase.java
@@ -24,14 +24,14 @@
 	[ ] SaleStringLengthInfoDTO.java
 	[ ] ScanInfoDTO.java
 
-[ ] startup
-	[ ] Main.java
+[x] startup
+	[x] Main.java
 
-[ ] util
-	[ ] Util.java
+[x] util
+	[x] Util.java
 
-[ ] view
-	[ ] View.java
+[x] view
+	[x] View.java
 
 ┌───────┐
 │ TESTS │
@@ -39,8 +39,8 @@
 [x] constants
 	[x] Constants.java
 
-[ ] controller
-	[ ] Controller.java
+[x] controller
+	[x] Controller.java
 
 [ ] integration
 	[ ] DiscountDatabase.java
@@ -59,11 +59,11 @@
 	[ ] SaleStringLengthInfoDTO.java
 	[ ] ScanInfoDTO.java
 
-[ ] startup
-	[ ] Main.java
+[x] startup
+	[x] Main.java
 
-[ ] util
-	[ ] Util.java
+[x] util
+	[x] Util.java
 
-[ ] view
-	[ ] View.java
+[x] view
+	[x] View.java
