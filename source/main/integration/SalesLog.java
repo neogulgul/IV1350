@@ -15,6 +15,7 @@ public class SalesLog
 
 	/**
 	 * Would have logged the sale if it were to be implemented.
+	 * @param saleInfo Sale information to be logged.
 	 */
 	public void logSale(SaleInfoDTO saleInfo)
 	{}

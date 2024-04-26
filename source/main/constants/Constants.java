@@ -5,6 +5,9 @@ package se.kth.iv1350.constants;
  */
 public class Constants
 {
+	private Constants()
+	{}
+
 	/**
 	 * The standard decimal precision used when rounding a double.
 	 */

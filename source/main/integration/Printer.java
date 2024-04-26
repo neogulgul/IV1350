@@ -157,7 +157,7 @@ public class Printer
 		twoPartRows = new HashMap<>();
 
 		String totalCostString = Util.standardDoubleString(saleInfo.getCostOfEntireSale());
-		String  totalVatString = Util.standardDoubleString(saleInfo.getVatOfEntireSale());
+		String  totalVatString = Util.standardDoubleString(saleInfo.getVatCostOfEntireSale());
 		String   paymentString = Util.standardDoubleString(saleInfo.getPaymentFromCustomer());
 		String    changeString = Util.standardDoubleString(saleInfo.getChangeForCustomer());
 

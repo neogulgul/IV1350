@@ -82,7 +82,7 @@ public class Controller
 			currentSale.recordItem(itemId, itemInfo, quantity);
 		}
 
-		return new ScanInfoDTO(itemId, itemInfo, quantity, currentSale.getCostOfEntireSale(), currentSale.getVatOfEntireSale());
+		return new ScanInfoDTO(itemId, itemInfo, quantity, currentSale.getCostOfEntireSale(), currentSale.getVatCostOfEntireSale());
 	}
 
 	/**

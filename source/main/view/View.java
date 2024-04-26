@@ -36,7 +36,7 @@ public class View
 			int scannedItemQuantity     = scanInfo.getQuantity();
 
 			double roundedTotalCost = Util.roundDouble(scanInfo.getCostOfEntireSale(), Constants.DECIMAL_PLACE_PRECISION);
-			double roundedTotalVat  = Util.roundDouble(scanInfo.getVatOfEntireSale() , Constants.DECIMAL_PLACE_PRECISION);
+			double roundedTotalVat  = Util.roundDouble(scanInfo.getVatCostOfEntireSale() , Constants.DECIMAL_PLACE_PRECISION);
 
 			System.out.println(String.format("Scanned \"%s\" x %d:", scannedItemInfo.getName(), scannedItemQuantity));
 			System.out.println("\tItem ID               : " + scannedItemId);
@@ -47,7 +47,7 @@ public class View
 			System.out.println();
 
 			String runningCostString = Util.asCurrency(Util.standardDoubleString(scanInfo.getCostOfEntireSale()));
-			String runningVatString  = Util.asCurrency(Util.standardDoubleString(scanInfo.getVatOfEntireSale()));
+			String runningVatString  = Util.asCurrency(Util.standardDoubleString(scanInfo.getVatCostOfEntireSale()));
 
 			System.out.println("Total cost (incl. VAT) : " + runningCostString);
 			System.out.println("Total cost of VAT      : " + runningVatString);

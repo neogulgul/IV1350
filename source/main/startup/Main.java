@@ -8,8 +8,13 @@ import se.kth.iv1350.view.View;
  */
 public class Main
 {
+	private Main()
+	{}
+
 	/**
 	 * Entry point for the program.
+	 *
+	 * @param args Command line arguments that specify what the program should do.
 	 */
 	public static void main(String[] args)
 	{

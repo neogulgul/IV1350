@@ -15,6 +15,8 @@ public class ExternalAccountingSystem
 
 	/**
 	 * Would have updated the accounting department responsible for sales if it were to be implemented.
+	 *
+	 * @param saleInfo Information about the sale.
 	 */
 	public void updateAccounts(SaleInfoDTO saleInfo)
 	{}

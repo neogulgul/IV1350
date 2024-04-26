@@ -13,6 +13,7 @@ public class Register
 
 	/**
 	 * Would have increased the amount present in the register if it were to be implemented.
+	 * @param payment Payment received from customer.
 	 */
 	public void increaseAmount(double payment)
 	{}

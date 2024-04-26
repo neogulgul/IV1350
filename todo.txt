@@ -15,14 +15,14 @@
 	[x] Register.java
 	[x] SalesLog.java
 
-[ ] model
-	[ ] ItemIdDTO.java
-	[ ] ItemInfoDTO.java
-	[ ] RecordedItem.java
-	[ ] SaleInfoDTO.java
-	[ ] Sale.java
-	[ ] SaleStringLengthInfoDTO.java
-	[ ] ScanInfoDTO.java
+[x] model
+	[x] ItemIdDTO.java
+	[x] ItemInfoDTO.java
+	[x] RecordedItem.java
+	[x] Sale.java
+	[x] SaleInfoDTO.java
+	[x] SaleStringLengthInfoDTO.java
+	[x] ScanInfoDTO.java
 
 [x] startup
 	[x] Main.java
@@ -51,11 +51,11 @@
 	[x] SalesLog.java
 
 [ ] model
-	[ ] ItemIdDTO.java
-	[ ] ItemInfoDTO.java
+	[x] ItemIdDTO.java
+	[x] ItemInfoDTO.java
 	[ ] RecordedItem.java
-	[ ] SaleInfoDTO.java
 	[ ] Sale.java
+	[ ] SaleInfoDTO.java
 	[ ] SaleStringLengthInfoDTO.java
 	[ ] ScanInfoDTO.java
 

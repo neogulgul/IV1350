@@ -7,6 +7,9 @@ import java.util.Calendar;
 import se.kth.iv1350.util.Util;
 import se.kth.iv1350.constants.Constants;
 
+/**
+ * Represents a sale.
+ */
 public class Sale
 {
 	private Map<ItemIdDTO, RecordedItem> recordedItems = new HashMap<>();
@@ -15,19 +18,6 @@ public class Sale
 	private double paymentFromCustomer;
 	private double changeForCustomer;
 	private Calendar timeOfSale;
-
-	public Sale()
-	{}
-
-	public double getCostOfEntireSale()
-	{
-		return costOfEntireSale;
-	}
-
-	public double getVatOfEntireSale()
-	{
-		return vatOfEntireSale;
-	}
 
 	private boolean previouslyRecorded(ItemIdDTO itemId)
 	{
@@ -42,23 +32,6 @@ public class Sale
 		recordedItem.modifyQuantity(incrementStep);
 
 		recordedItems.replace(itemId, recordedItem);
-	}
-
-	public void recordItem(ItemIdDTO itemId, ItemInfoDTO itemInfo, int quantity)
-	{
-		if (quantity <= 0) return;
-
-		if (previouslyRecorded(itemId))
-		{
-			incrementQuantity(itemId, quantity);
-		}
-		else
-		{
-			recordedItems.put(itemId, new RecordedItem(itemInfo, quantity));
-		}
-
-		costOfEntireSale += itemInfo.calculateCostIncludingVat() * quantity;
-		vatOfEntireSale  += itemInfo.calculateCostOfVat()        * quantity;
 	}
 
 	private SaleStringLengthInfoDTO createSaleStringLengthInfoDTO()
@@ -103,6 +76,58 @@ public class Sale
 		);
 	}
 
+	/**
+	 * {@link Sale} constructor.
+	 */
+	public Sale()
+	{}
+
+	/**
+	 * Getter for cost of entire sale.
+	 * @return Cost of entire sale.
+	 */
+	public double getCostOfEntireSale()
+	{
+		return costOfEntireSale;
+	}
+
+	/**
+	 * Getter for VAT cost of entire sale.
+	 * @return VAT cost of entire sale.
+	 */
+	public double getVatCostOfEntireSale()
+	{
+		return vatOfEntireSale;
+	}
+
+	/**
+	 * Records an item.
+	 *
+	 * @param itemId Id of item to record.
+	 * @param itemInfo Info about the item to be recorded.
+	 * @param quantity Quantity of the item to be recorded.
+	 */
+	public void recordItem(ItemIdDTO itemId, ItemInfoDTO itemInfo, int quantity)
+	{
+		if (quantity <= 0) return;
+
+		if (previouslyRecorded(itemId))
+		{
+			incrementQuantity(itemId, quantity);
+		}
+		else
+		{
+			recordedItems.put(itemId, new RecordedItem(itemInfo, quantity));
+		}
+
+		costOfEntireSale += itemInfo.calculateCostIncludingVat() * quantity;
+		vatOfEntireSale  += itemInfo.calculateCostOfVat()        * quantity;
+	}
+
+	/**
+	 * Creates information about the sale.
+	 * @return Sale information.
+	 */
 	public SaleInfoDTO createInfoDTO()
 	{
 		return new SaleInfoDTO(
@@ -116,11 +141,21 @@ public class Sale
 		);
 	}
 
+	/**
+	 * Logs the time of sale.
+	 */
 	public void logTimeOfSale()
 	{
 		timeOfSale = Calendar.getInstance();
 	}
 
+	/**
+	 * Handles payment by calculating change.
+	 *
+	 * @param payment Customer payment.
+	 *
+	 * @return <code>boolean</code> representing whether or not the payment was sufficient to cover the costs of the entire sale or not.
+	 */
 	public boolean handlePayment(double payment)
 	{
 		paymentFromCustomer = payment;
