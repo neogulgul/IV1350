@@ -1,5 +1,0 @@
-appleRed     10
-appleGreen  120
-appleMystery  1
-bananaNormal 10
-bananaGolden  1

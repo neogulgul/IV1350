@@ -48,9 +48,9 @@ class UtilTest
 	}
 
 	@Test
-	public void replaceDecimalOfDoubleTest()
+	public void replaceDecimalMarkOfDoubleTest()
 	{
-		assertEquals("123" + Constants.DECIMAL_MARK + "456", Util.replaceDecimalOfDouble(123.456, Constants.DECIMAL_MARK));
+		assertEquals("123" + Constants.DECIMAL_MARK + "456", Util.replaceDecimalMarkOfDouble(123.456, Constants.DECIMAL_MARK));
 	}
 
 	@Test

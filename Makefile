@@ -19,8 +19,6 @@ test_target_dir   := $(target_dir)/test
 main_files        := $(shell find $(main_source_dir) -type f -name *.java)
 test_files        := $(shell find $(test_source_dir) -type f -name *.java)
 
-goods_filepath    := "goods.txt"
-
 # foreground colors
 ANSI_FG_RED       := "31"
 ANSI_FG_GREEN     := "32"
@@ -40,7 +38,7 @@ compile: clean-target
 	./test.sh
 
 	@./colored_box_prompt.sh "Running program" $(ANSI_FG_GREEN)
-	./run.sh $(goods_filepath)
+	./run.sh
 
 docs: clean-documentation
 	javadoc $(main_source_dir)/*.java -d $(documentation_dir)

@@ -8,8 +8,12 @@ import se.kth.iv1350.constants.Constants;
 
 public class Util
 {
-	private Util()
-	{}
+	private Util() {}
+
+	public static String asCurrency(String str)
+	{
+		return str + " " + Constants.CURRENCY_CODE;
+	}
 
 	public static int biggestInt(int... intsToCompare)
 	{
@@ -36,10 +40,19 @@ public class Util
 		return s;
 	}
 
-	public static String standardizeDouble(double doubleToStandardize)
+	public static String standardDoubleString(double doubleToStandardize)
 	{
 		double rounded = roundDouble(doubleToStandardize, Constants.DECIMAL_PLACE_PRECISION);
-		return replaceDecimalOfDouble(rounded, Constants.DECIMAL_MARK);
+		String corrected = replaceDecimalMarkOfDouble(rounded, Constants.DECIMAL_MARK);
+
+		int lengthAfterDecimal = lengthOfDoubleAfterDecimal(rounded);
+		int zerosToAppend = Constants.DECIMAL_PLACE_PRECISION - lengthAfterDecimal;
+		for (int i = 0; i < zerosToAppend; i++)
+		{
+			corrected += '0';
+		}
+
+		return corrected;
 	}
 
 	public static double roundDouble(double numberToRound, int decimalPlace)
@@ -80,7 +93,7 @@ public class Util
 		return stringToModify.substring(0, index) + replacement + stringToModify.substring(index + 1);
 	}
 
-	public static String replaceDecimalOfDouble(double d, char replacement)
+	public static String replaceDecimalMarkOfDouble(double d, char replacement)
 	{
 		String str = String.valueOf(d);
 

@@ -58,7 +58,7 @@ public class Sale
 		}
 
 		costOfEntireSale += itemInfo.calculateCostIncludingVat() * quantity;
-		vatOfEntireSale  += itemInfo.calculateCostOfVat() * quantity;
+		vatOfEntireSale  += itemInfo.calculateCostOfVat()        * quantity;
 	}
 
 	private SaleStringLengthInfoDTO createSaleStringLengthInfoDTO()
@@ -121,9 +121,11 @@ public class Sale
 		timeOfSale = Calendar.getInstance();
 	}
 
-	public void handlePayment(double payment)
+	public boolean handlePayment(double payment)
 	{
 		paymentFromCustomer = payment;
 		changeForCustomer   = payment - costOfEntireSale;
+
+		return changeForCustomer >= 0;
 	}
 }

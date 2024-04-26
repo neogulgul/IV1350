@@ -43,7 +43,7 @@ public class Printer
 	private final int    RECEIPT_SECTION_PADDING             = 3;
 	private final int    RECEIPT_DECIMAL_POINTS_PER_ITEM_ROW = 2;
 	private final String RECEIPT_QUANTITY_DIVIDER            = " x ";
-	private final String RECEIPT_CURRENCY_TOKEN              = " " + Constants.CURRENCY_CODE;
+	private final String RECEIPT_CURRENCY_TOKEN              = Util.asCurrency("");
 	private final String RECEIPT_BEGIN_RECEIPT_MESSAGE       = "This is your receipt!";
 	private final String RECEIPT_END_RECEIPT_MESSAGE         = "Thanks for your purchase!";
 
@@ -147,18 +147,18 @@ public class Printer
 	{
 		twoPartRows = new HashMap<>();
 
-		double roundedTotalCost = Util.roundDouble(saleInfo.getCostOfEntireSale   (), Constants.DECIMAL_PLACE_PRECISION);
-		double roundedTotalVat  = Util.roundDouble(saleInfo.getVatOfEntireSale    (), Constants.DECIMAL_PLACE_PRECISION);
-		double roundedPayment   = Util.roundDouble(saleInfo.getPaymentFromCustomer(), Constants.DECIMAL_PLACE_PRECISION);
-		double roundedChange    = Util.roundDouble(saleInfo.getChangeForCustomer  (), Constants.DECIMAL_PLACE_PRECISION);
+		String totalCostString = Util.standardDoubleString(saleInfo.getCostOfEntireSale());
+		String  totalVatString = Util.standardDoubleString(saleInfo.getVatOfEntireSale());
+		String   paymentString = Util.standardDoubleString(saleInfo.getPaymentFromCustomer());
+		String    changeString = Util.standardDoubleString(saleInfo.getChangeForCustomer());
 
 		twoPartRows.put("timeOfSale", new TwoPartRow("Time of sale: ", timeOfSaleString));
 
-		twoPartRows.put("totalCost", new TwoPartRow("Total cost (incl. VAT): ", roundedTotalCost + RECEIPT_CURRENCY_TOKEN));
-		twoPartRows.put("totalVat", new TwoPartRow("Total cost of VAT: ", roundedTotalVat + RECEIPT_CURRENCY_TOKEN));
+		twoPartRows.put("totalCost", new TwoPartRow("Total cost (incl. VAT): ", totalCostString + RECEIPT_CURRENCY_TOKEN));
+		twoPartRows.put("totalVat", new TwoPartRow("Total cost of VAT: ", totalVatString + RECEIPT_CURRENCY_TOKEN));
 
-		twoPartRows.put("payment", new TwoPartRow("Payment: ", roundedPayment + RECEIPT_CURRENCY_TOKEN));
-		twoPartRows.put("change", new TwoPartRow("Change: ", roundedChange + RECEIPT_CURRENCY_TOKEN));
+		twoPartRows.put("payment", new TwoPartRow("Payment: ", paymentString + RECEIPT_CURRENCY_TOKEN));
+		twoPartRows.put("change", new TwoPartRow("Change: ", changeString + RECEIPT_CURRENCY_TOKEN));
 
 		updateLengthOfLongestTwoPartRow();
 	}
@@ -228,8 +228,8 @@ public class Printer
 			double currentCost         = Util.roundDouble(currentInfo.calculateCostIncludingVat(), Constants.DECIMAL_PLACE_PRECISION);
 			double currentCombinedCost = Util.roundDouble(currentItem.calculateCombinedCostIncludingVat(), Constants.DECIMAL_PLACE_PRECISION);
 
-			String currentCostString         = Util.standardizeDouble(currentCost);
-			String currentCombinedCostString = Util.standardizeDouble(currentCombinedCost);
+			String currentCostString         = Util.standardDoubleString(currentCost);
+			String currentCombinedCostString = Util.standardDoubleString(currentCombinedCost);
 
 			int currentNameLength                      = currentName.length();
 			int currentQuantityLength                  = Util.lengthOfInt(currentQuantity);
@@ -277,13 +277,11 @@ public class Printer
 
 			System.out.print(currentCostString);
 
-			System.out.print(Util.charRepeat('0', lengthAwayFromLongestCostAfterDecimal));
 			System.out.print(Util.charRepeat(' ', RECEIPT_SECTION_PADDING));
 			System.out.print(Util.charRepeat(' ', lengthAwayFromLongestCombinedCostBeforeDecimal));
 
 			System.out.print(currentCombinedCostString);
 
-			System.out.print(Util.charRepeat('0', lengthAwayFromLongestCombinedCostAfterDecimal));
 			System.out.print(RECEIPT_CURRENCY_TOKEN);
 			System.out.print(Util.charRepeat(' ', RECEIPT_BORDER_PADDING));
 			System.out.print("│");

@@ -1,0 +1,11 @@
+appleMystery  1
+appleMystery  1
+appleMystery  1
+appleMystery  1
+appleMystery  1
+appleRed     10
+appleGreen  120
+appleMystery 15
+bananaNormal 10
+bananaGolden  1
+eggFactory   12

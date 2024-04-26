@@ -10,13 +10,11 @@ import se.kth.iv1350.constants.Constants;
 
 public class View
 {
-	private String goodsFilepath;
 	private Controller controller;
 
-	public View(Controller controller, String goodsFilepath)
+	public View(Controller controller)
 	{
 		this.controller = controller;
-		this.goodsFilepath = goodsFilepath;
 	}
 
 	private void handleScanInfo(ScanInfoDTO scanInfo)
@@ -30,20 +28,16 @@ public class View
 			double roundedTotalCost = Util.roundDouble(scanInfo.getCostOfEntireSale(), Constants.DECIMAL_PLACE_PRECISION);
 			double roundedTotalVat  = Util.roundDouble(scanInfo.getVatOfEntireSale() , Constants.DECIMAL_PLACE_PRECISION);
 
-			String scannedItemPriceString = Util.standardizeDouble(scannedItemInfo.getPrice()) + " " + Constants.CURRENCY_CODE;
-			String scannedItemVatString   = Util.standardizeDouble(scannedItemInfo.getVat() * 100) + "%";
-			String scannedItemCostString  = Util.standardizeDouble(scannedItemInfo.calculateCostIncludingVat()) + " " + Constants.CURRENCY_CODE;
-
 			System.out.println(String.format("Scanned \"%s\" x %d:", scannedItemInfo.getName(), scannedItemQuantity));
 			System.out.println("\tItem ID               : " + scannedItemId);
-			System.out.println("\tItem price            : " + scannedItemPriceString);
-			System.out.println("\tItem VAT              : " + scannedItemVatString);
-			System.out.println("\tItem cost (incl. VAT) : " + scannedItemCostString);
+			System.out.println("\tItem price            : " + scannedItemInfo.makePriceString());
+			System.out.println("\tItem VAT              : " + scannedItemInfo.makeVatString());
+			System.out.println("\tItem cost (incl. VAT) : " + scannedItemInfo.makeCostIncludingVatString());
 			System.out.println("\tItem description      : " + scannedItemInfo.getDescription());
 			System.out.println();
 
-			String runningCostString = Util.standardizeDouble(scanInfo.getCostOfEntireSale()) + " " + Constants.CURRENCY_CODE;
-			String runningVatString  = Util.standardizeDouble(scanInfo.getVatOfEntireSale())  + " " + Constants.CURRENCY_CODE;
+			String runningCostString = Util.asCurrency(Util.standardDoubleString(scanInfo.getCostOfEntireSale()));
+			String runningVatString  = Util.asCurrency(Util.standardDoubleString(scanInfo.getVatOfEntireSale()));
 
 			System.out.println("Total cost (incl. VAT) : " + runningCostString);
 			System.out.println("Total cost of VAT      : " + runningVatString);
@@ -56,10 +50,10 @@ public class View
 		}
 	}
 
-	private void scanGoods()
+	private void scanGoods(String goodsFilepath)
 	{
-		String goodsTextfile = Util.readFromFile(goodsFilepath);
-		String[] goodsLines = goodsTextfile.split("\n");
+		String goodsText = Util.readFromFile(goodsFilepath);
+		String[] goodsLines = goodsText.split("\n");
 		for (String line : goodsLines)
 		{
 			String[] lineSplit = line.split(Constants.REGEX_SEQUENCE_OF_SPACES);
@@ -74,16 +68,39 @@ public class View
 		}
 	}
 
-	public void run()
+	private double readPayment(String paymentFilepath)
+	{
+		String paymentText = Util.readFromFile(paymentFilepath);
+
+		double payment = Double.parseDouble(paymentText);
+
+		System.out.println("Customer pays: " + Util.asCurrency(Util.standardDoubleString(payment)));
+
+		return payment;
+	}
+
+	private void sendPaymentError()
+	{
+		System.out.println("Insufficient payment >:(");
+	}
+
+	public void run(String goodsFilepath, String paymentFilepath)
 	{
 		controller.startSale();
 
-		scanGoods();
+		scanGoods(goodsFilepath);
 
 		controller.endSale();
 
 		controller.checkForDiscount();
 
-		controller.completeTransaction(1000);
+		double payment = readPayment(paymentFilepath);
+
+		boolean transactionSuccess = controller.completeTransaction(payment);
+
+		if (!transactionSuccess)
+		{
+			sendPaymentError();
+		}
 	}
 }

@@ -7,17 +7,25 @@ public class Main
 {
 	public static void main(String[] args)
 	{
-		if (args.length == 1)
+		Controller controller = new Controller();
+
+		View view = new View(controller);
+
+		if (args.length == 1 && args[0].equals("inventory"))
 		{
-			Controller controller = new Controller();
-
-			View view = new View(controller, args[0]);
-
-			view.run();
+			System.out.println(controller.getItemStockStringFromInventory());
+		}
+		else if (args.length == 2)
+		{
+			view.run(args[0], args[1]);
 		}
 		else
 		{
-			System.out.println("Pass in one argument (path/to/goods). No more, no less.");
+			System.out.println("Invalid arguments!");
+			System.out.println("To run normally:");
+			System.out.println("\tjava -cp <classpath> se.kth.iv1350.startup.Main <path/to/goods> <path/to/payment>");
+			System.out.println("To see inventory:");
+			System.out.println("\tjava -cp <classpath> se.kth.iv1350.startup.Main inventory");
 		}
 	}
 }

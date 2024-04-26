@@ -10,28 +10,31 @@ public class ExternalInventorySystem
 	private Map<ItemIdDTO, ItemInfoDTO> itemStock = new HashMap<>();
 	private final ItemInfoDTO INVALID_ITEM_INFO = new ItemInfoDTO();
 
-	private final double SMALL_VAT  = 0.06;
-	private final double MEDIUM_VAT = 0.12;
-	private final double LARGE_VAT  = 0.25;
+	private class Vat
+	{
+		public static final double SMALL  = 0.06;
+		public static final double MEDIUM = 0.12;
+		public static final double LARGE  = 0.25;
+	}
 
 	public ExternalInventorySystem()
 	{
-		itemStock.put(
-			new ItemIdDTO("appleRed"),
-			new ItemInfoDTO(
-				"Red Apple",
-				"An apple that is red.",
-				3.50,
-				SMALL_VAT
-			)
-		);
 		itemStock.put(
 			new ItemIdDTO("appleGreen"),
 			new ItemInfoDTO(
 				"Green Apple",
 				"An apple that is green.",
-				3.50,
-				SMALL_VAT
+				2.99,
+				Vat.SMALL
+			)
+		);
+		itemStock.put(
+			new ItemIdDTO("appleRed"),
+			new ItemInfoDTO(
+				"Red Apple",
+				"An apple that is red.",
+				4.99,
+				Vat.SMALL
 			)
 		);
 		itemStock.put(
@@ -39,8 +42,8 @@ public class ExternalInventorySystem
 			new ItemInfoDTO(
 				"Mysterious Apple",
 				"???",
-				0.50,
-				SMALL_VAT
+				0.99,
+				Vat.SMALL
 			)
 		);
 		itemStock.put(
@@ -48,8 +51,8 @@ public class ExternalInventorySystem
 			new ItemInfoDTO(
 				"Banana",
 				"Loved by monkeys all over the world.",
-				5.90,
-				SMALL_VAT
+				8.00,
+				Vat.SMALL
 			)
 		);
 		itemStock.put(
@@ -57,8 +60,17 @@ public class ExternalInventorySystem
 			new ItemInfoDTO(
 				"Golden Banana",
 				"1 kg of solid gold in the shape of a banana.",
-				999999.99,
-				LARGE_VAT
+				800000.00,
+				Vat.LARGE
+			)
+		);
+		itemStock.put(
+			new ItemIdDTO("eggFactory"),
+			new ItemInfoDTO(
+				"Chicken",
+				"Produces eggs.",
+				500.00,
+				Vat.MEDIUM
 			)
 		);
 	}
@@ -73,5 +85,31 @@ public class ExternalInventorySystem
 		{
 			return INVALID_ITEM_INFO;
 		}
+	}
+
+	public void updateQuantity(SaleInfoDTO saleInfo)
+	{
+	}
+
+	public String getItemStockString()
+	{
+		String itemStockString = "";
+
+		itemStockString += "ID\tINFO\n";
+		for (ItemIdDTO itemId : itemStock.keySet())
+		{
+			ItemInfoDTO itemInfo = itemStock.get(itemId);
+
+			itemStockString += "\n";
+
+			itemStockString += itemId                                                          + "\n";
+			itemStockString += "\tName             : " + itemInfo.getName()                    + "\n";
+			itemStockString += "\tPrice            : " + itemInfo.makePriceString()            + "\n";
+			itemStockString += "\tVAT              : " + itemInfo.makeVatString()              + "\n";
+			itemStockString += "\tCost (incl. VAT) : " + itemInfo.makeCostIncludingVatString() + "\n";
+			itemStockString += "\tDescription      : " + itemInfo.getDescription()             + "\n";
+		}
+
+		return itemStockString;
 	}
 }

@@ -1,5 +1,7 @@
 package se.kth.iv1350.model;
 
+import se.kth.iv1350.util.Util;
+
 public class ItemInfoDTO
 {
 	private String name;
@@ -53,5 +55,25 @@ public class ItemInfoDTO
 	public double calculateCostIncludingVat()
 	{
 		return price + calculateCostOfVat();
+	}
+
+	public String makePriceString()
+	{
+		return Util.asCurrency(Util.standardDoubleString(price));
+	}
+
+	public String makeVatString()
+	{
+		return Util.standardDoubleString(vat * 100) + "%";
+	}
+
+	public String makeCostOfVatString()
+	{
+		return Util.asCurrency(Util.standardDoubleString(calculateCostOfVat()));
+	}
+
+	public String makeCostIncludingVatString()
+	{
+		return Util.asCurrency(Util.standardDoubleString(calculateCostIncludingVat()));
 	}
 }
