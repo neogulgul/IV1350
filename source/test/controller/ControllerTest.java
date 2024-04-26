@@ -1,9 +1,6 @@
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import se.kth.iv1350.constants.Constants;
-import se.kth.iv1350.util.Util;
-
 import se.kth.iv1350.model.*;
 import se.kth.iv1350.controller.Controller;
 

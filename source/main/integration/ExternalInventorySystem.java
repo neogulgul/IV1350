@@ -5,6 +5,9 @@ import java.util.HashMap;
 
 import se.kth.iv1350.model.*;
 
+/**
+ * {@link ExternalInventorySystem} represents an external inventory system.
+ */
 public class ExternalInventorySystem
 {
 	private Map<ItemIdDTO, ItemInfoDTO> itemStock = new HashMap<>();
@@ -17,6 +20,9 @@ public class ExternalInventorySystem
 		public static final double LARGE  = 0.25;
 	}
 
+	/**
+	 * Creates an instance of an {@link ExternalInventorySystem} with items in stock.
+	 */
 	public ExternalInventorySystem()
 	{
 		itemStock.put(
@@ -75,11 +81,24 @@ public class ExternalInventorySystem
 		);
 	}
 
+	/**
+	 * <code>itemStock</code> getter.
+	 *
+	 * @return <code>Map&lt;ItemIdDTO, ItemInfoDTO&gt;</code> which represents the item stock.
+	 */
 	public Map<ItemIdDTO, ItemInfoDTO> getItemStock()
 	{
 		return itemStock;
 	}
 
+	/**
+	 * Retrieves item information from the stock.
+	 *
+	 * @param itemId The id of the item to retrieve info about.
+	 *
+	 * @return Information about the item with the given item id.
+	 *         If the item id was not found in the stock it returns invalid item information.
+	 */
 	public ItemInfoDTO retrieveItemInfo(ItemIdDTO itemId)
 	{
 		if (itemStock.containsKey(itemId))
@@ -92,6 +111,11 @@ public class ExternalInventorySystem
 		}
 	}
 
+	/**
+	 * Would have updated the quantity of items in stock if it were to be implemented.
+	 *
+	 * @param saleInfo Sale information that would have been used to update the quantity of the corresponding bought items.
+	 */
 	public void updateQuantity(SaleInfoDTO saleInfo)
 	{
 	}

@@ -7,13 +7,13 @@
 [x] controller
 	[x] Controller.java
 
-[ ] integration
-	[ ] DiscountDatabase.java
-	[ ] ExternalAccountingSystem.java
-	[ ] ExternalInventorySystem.java
-	[ ] Printer.java
-	[ ] Register.java
-	[ ] SalesLog.java
+[x] integration
+	[x] DiscountDatabase.java
+	[x] ExternalAccountingSystem.java
+	[x] ExternalInventorySystem.java
+	[x] Printer.java
+	[x] Register.java
+	[x] SalesLog.java
 
 [ ] model
 	[ ] ItemIdDTO.java
@@ -42,13 +42,13 @@
 [x] controller
 	[x] Controller.java
 
-[ ] integration
-	[ ] DiscountDatabase.java
-	[ ] ExternalAccountingSystem.java
-	[ ] ExternalInventorySystem.java
-	[ ] Printer.java
-	[ ] Register.java
-	[ ] SalesLog.java
+[x] integration
+	[x] DiscountDatabase.java
+	[x] ExternalAccountingSystem.java
+	[x] ExternalInventorySystem.java
+	[x] Printer.java
+	[x] Register.java
+	[x] SalesLog.java
 
 [ ] model
 	[ ] ItemIdDTO.java

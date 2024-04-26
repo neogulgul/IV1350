@@ -10,6 +10,9 @@ import se.kth.iv1350.model.*;
 import se.kth.iv1350.util.Util;
 import se.kth.iv1350.constants.Constants;
 
+/**
+ * {@link ExternalInventorySystem} represents a printer.
+ */
 public class Printer
 {
 	private class TwoPartRow
@@ -67,6 +70,9 @@ public class Printer
 	private Map<String, TwoPartRow> twoPartRows;
 	private int lengthOfLongestTwoPartRow;
 
+	/**
+	 * {@link ExternalInventorySystem} constructor.
+	 */
 	public Printer()
 	{}
 
@@ -318,6 +324,11 @@ public class Printer
 		System.out.println();
 	}
 
+	/**
+	 * Prints out a receipt from given information about a sale.
+	 *
+	 * @param saleInfo Given information about a sale.
+	 */
 	public void printReceipt(SaleInfoDTO saleInfo)
 	{
 		Collection<RecordedItem> recordedItems = saleInfo.getCollectionOfRecordedItems();

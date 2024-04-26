@@ -96,7 +96,7 @@ public class Util
 	 * For example, stringReplaceAtIndex("BEST", 0, 'T') should return "TEST".
 	 * Another example, stringReplacedAtIndex(":(", -1, ')') should return ":)".
 	 * Another example, stringReplaceAtIndex("01234", 5, '5') should return "51234".
-	 *s
+	 *
 	 * @param stringToModify The string to modify.
 	 * @param index          The index of the <code>char</code> to be replaced.
 	 * @param replacement    The <code>char</code> to take over at the given index.
