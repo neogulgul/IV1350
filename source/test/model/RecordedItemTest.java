@@ -1,7 +1,8 @@
+package se.kth.iv1350.model;
+
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import se.kth.iv1350.model.*;
 import se.kth.iv1350.util.Util;
 
 class RecordedItemTest
@@ -25,20 +26,20 @@ class RecordedItemTest
 	{
 		int extra = 50;
 		recordedItem.modifyQuantity(extra);
-		assertEquals(recordedItem.getQuantity(), extra + quantity);
+		assertEquals(recordedItem.getQuantity(), extra + quantity, "quantity is wrong");
 		recordedItem.modifyQuantity(-recordedItem.getQuantity() - 1);
-		assertEquals(recordedItem.getQuantity(), 0);
+		assertEquals(recordedItem.getQuantity(), 0, "quantity should be 0, but is not");
 	}
 
 	@Test
 	void calculateCombinedPriceTest()
 	{
-		assertEquals(recordedItem.calculateCombinedPrice(), price * quantity);
+		assertEquals(recordedItem.calculateCombinedPrice(), price * quantity, "combined price is wrong");
 	}
 
 	@Test
 	void calculateCombinedCostIncludingVatTest()
 	{
-		assertEquals(recordedItem.calculateCombinedCostIncludingVat(), (price + price * vat) * quantity);
+		assertEquals(recordedItem.calculateCombinedCostIncludingVat(), (price + price * vat) * quantity, "combined cost including vat is wrong");
 	}
 }

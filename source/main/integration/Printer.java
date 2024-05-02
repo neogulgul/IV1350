@@ -183,8 +183,8 @@ public class Printer
 		timeOfSaleString = String.format(
 			"%s %d %d %s:%s",
 			month, day, year,
-			Util.intToStringOfAtleastTwoDigits(hour),
-			Util.intToStringOfAtleastTwoDigits(minute)
+			Util.intToStringOfAtLeastTwoDigits(hour),
+			Util.intToStringOfAtLeastTwoDigits(minute)
 		);
 	}
 

@@ -1,8 +1,9 @@
+package se.kth.iv1350.controller;
+
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import se.kth.iv1350.model.*;
-import se.kth.iv1350.controller.Controller;
 
 class ControllerTest
 {
@@ -24,8 +25,8 @@ class ControllerTest
 		ScanInfoDTO scanInfoThatShouldExist    = controller.scanItem(idThatShouldExist, 1);
 		ScanInfoDTO scanInfoThatShouldNotExist = controller.scanItem(idThatShouldNotExist, 1);
 
-		assertEquals(true, scanInfoThatShouldExist.isValid(), "this should exist");
-		assertEquals(false, scanInfoThatShouldNotExist.isValid(), "this should not exist");
+		assertEquals(true, scanInfoThatShouldExist.isValid(), "this should exist, but does not");
+		assertEquals(false, scanInfoThatShouldNotExist.isValid(), "this should not exist, but does");
 	}
 
 	@Test
@@ -33,7 +34,7 @@ class ControllerTest
 	{
 		controller.endSale();
 
-		assertEquals(true, controller.completeTransaction(100), "should be allowed");
-		assertEquals(false, controller.completeTransaction(-100), "should not be allowed");
+		assertEquals(true, controller.completeTransaction(100), "should be allowed, but is not");
+		assertEquals(false, controller.completeTransaction(-100), "should not be allowed, but is");
 	}
 }

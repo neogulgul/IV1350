@@ -15,7 +15,7 @@ public class Util
 
 	/**
 	 * Finds the biggest <code>int</code> from a variable number of integers.
-	 * For example, Util.biggestInt(-100, 50, 0, 50, 100) should return 100;
+	 * For example, biggestInt(-100, 50, 0, 50, 100) should return 100;
 	 *
 	 * @param intsToCompare A variable number of integers to compare with each other.
 	 *
@@ -160,14 +160,14 @@ public class Util
 
 	/**
 	 * Appends an additional zero to the front of an <code>int</code> if it is only one digit by itself.
-	 * For example, intToStringOfAtleastTwoDigits(5) should return "05".
+	 * For example, intToStringOfAtLeastTwoDigits(5) should return "05".
 	 * Useful when representing time like 07:05.
 	 *
 	 * @param i The <code>int</code> in question.
 	 *
 	 * @return The integer in question, perhaps with an appended zero in the front.
 	 */
-	public static String intToStringOfAtleastTwoDigits(int i)
+	public static String intToStringOfAtLeastTwoDigits(int i)
 	{
 		String s = String.valueOf(i);
 		if (s.length() == 1)
