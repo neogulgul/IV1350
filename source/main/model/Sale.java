@@ -1,11 +1,11 @@
 package se.kth.iv1350.model;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
-import se.kth.iv1350.util.Util;
 import se.kth.iv1350.constants.Constants;
+import se.kth.iv1350.util.Util;
 
 /**
  * Represents a sale.

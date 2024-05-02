@@ -1,12 +1,11 @@
 package se.kth.iv1350.view;
 
+import se.kth.iv1350.constants.Constants;
 import se.kth.iv1350.controller.Controller;
 import se.kth.iv1350.model.ItemIdDTO;
 import se.kth.iv1350.model.ItemInfoDTO;
 import se.kth.iv1350.model.ScanInfoDTO;
-
 import se.kth.iv1350.util.Util;
-import se.kth.iv1350.constants.Constants;
 
 /**
  * The {@link View} bridges the gap between the user and the program.
@@ -57,6 +56,7 @@ public class View
 		else
 		{
 			System.out.println(scanInfo.getItemId() + " is not a valid item...");
+			System.out.println();
 		}
 	}
 

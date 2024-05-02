@@ -1,7 +1,8 @@
 package se.kth.iv1350.integration;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import se.kth.iv1350.model.*;
 
@@ -26,57 +27,39 @@ public class ExternalInventorySystem
 	public ExternalInventorySystem()
 	{
 		itemStock.put(
-			new ItemIdDTO("appleGreen"),
+			new ItemIdDTO("book"),
 			new ItemInfoDTO(
-				"Green Apple",
-				"An apple that is green.",
-				2.99,
-				Vat.LARGE
-			)
-		);
-		itemStock.put(
-			new ItemIdDTO("appleRed"),
-			new ItemInfoDTO(
-				"Red Apple",
-				"An apple that is red.",
-				4.99,
-				Vat.LARGE
-			)
-		);
-		itemStock.put(
-			new ItemIdDTO("appleMystery"),
-			new ItemInfoDTO(
-				"Mysterious Apple",
-				"???",
-				0.99,
+				"Book",
+				"A piece of literature.",
+				50.50,
 				Vat.SMALL
 			)
 		);
 		itemStock.put(
-			new ItemIdDTO("bananaNormal"),
+			new ItemIdDTO("apple"),
+			new ItemInfoDTO(
+				"Apple",
+				"Keeps doctors away.",
+				4.99,
+				Vat.MEDIUM
+			)
+		);
+		itemStock.put(
+			new ItemIdDTO("banana"),
 			new ItemInfoDTO(
 				"Banana",
-				"Loved by monkeys all over the world.",
-				8.00,
-				Vat.LARGE
-			)
-		);
-		itemStock.put(
-			new ItemIdDTO("bananaGolden"),
-			new ItemInfoDTO(
-				"Golden Banana",
-				"1 kg of solid gold in the shape of a banana.",
-				800000.00,
-				Vat.LARGE
-			)
-		);
-		itemStock.put(
-			new ItemIdDTO("eggDispenser"),
-			new ItemInfoDTO(
-				"Chicken",
-				"Produces eggs.",
-				500.00,
+				"Loved by monkeys.",
+				7.99,
 				Vat.MEDIUM
+			)
+		);
+		itemStock.put(
+			new ItemIdDTO("waterBottle"),
+			new ItemInfoDTO(
+				"Bottled Water",
+				"Filled with water.",
+				14.99,
+				Vat.LARGE
 			)
 		);
 	}
@@ -118,5 +101,27 @@ public class ExternalInventorySystem
 	 */
 	public void updateQuantity(SaleInfoDTO saleInfo)
 	{
+		Map<ItemIdDTO, RecordedItem> recordedItems = saleInfo.getRecordedItems();
+		Set<ItemIdDTO> recordedIds = recordedItems.keySet();
+		int uniqueIds = recordedIds.size();
+
+		if (uniqueIds == 0)
+		{
+			System.out.println("No change was made to the external inventory system.");
+		}
+		else
+		{
+			System.out.println("Changes in external inventory system:");
+
+			for (ItemIdDTO itemId : recordedIds)
+			{
+				RecordedItem recordedItem = recordedItems.get(itemId);
+				System.out.println(String.format(
+					"\tQuantity of %s was decreased by %d units.",
+					itemId,
+					recordedItem.getQuantity()
+				));
+			}
+		}
 	}
 }

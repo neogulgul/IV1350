@@ -118,7 +118,7 @@ public class Controller
 			salesLog.logSale(saleInfo);
 			accounting.updateAccounts(saleInfo);
 			inventory.updateQuantity(saleInfo);
-			register.increaseAmount(payment);
+			register.increaseAmount(saleInfo.getCostOfEntireSale());
 			printer.printReceipt(saleInfo);
 		}
 

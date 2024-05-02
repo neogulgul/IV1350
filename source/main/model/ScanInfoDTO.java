@@ -1,7 +1,7 @@
 package se.kth.iv1350.model;
 
 /**
- * DTO representing information after an item has been scan.
+ * DTO representing information after an item has been scanned.
  */
 public class ScanInfoDTO
 {

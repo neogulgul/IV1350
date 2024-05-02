@@ -19,5 +19,7 @@ public class ExternalAccountingSystem
 	 * @param saleInfo Information about the sale.
 	 */
 	public void updateAccounts(SaleInfoDTO saleInfo)
-	{}
+	{
+		System.out.println("Updated external accounting system.");
+	}
 }

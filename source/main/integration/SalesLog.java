@@ -18,5 +18,7 @@ public class SalesLog
 	 * @param saleInfo Sale information to be logged.
 	 */
 	public void logSale(SaleInfoDTO saleInfo)
-	{}
+	{
+		System.out.println("Updated sales log.");
+	}
 }

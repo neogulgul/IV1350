@@ -41,6 +41,7 @@ compile: clean-target
 	./run.sh
 
 docs: clean-documentation
+	@./colored_box_prompt.sh "Compiling documentation" $(ANSI_FG_YELLOW)
 	javadoc -quiet -d $(documentation_dir) $(main_files)
 
 clean-target:
@@ -51,4 +52,4 @@ clean-documentation:
 	@./colored_box_prompt.sh "Removing documentation directory" $(ANSI_FG_RED)
 	rm -rf $(documentation_dir)
 
-clean-all: clean-target clean-documentation
+clean: clean-target clean-documentation

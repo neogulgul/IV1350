@@ -1,14 +1,14 @@
 package se.kth.iv1350.integration;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.text.MessageFormat;
 
+import se.kth.iv1350.constants.Constants;
 import se.kth.iv1350.model.*;
 import se.kth.iv1350.util.Util;
-import se.kth.iv1350.constants.Constants;
 
 /**
  * {@link ExternalInventorySystem} represents a printer.
@@ -231,9 +231,9 @@ public class Printer
 		System.out.println();
 	}
 
-	private void printReceiptItems(Collection<RecordedItem> recordedItems)
+	private void printReceiptItems(Map<ItemIdDTO, RecordedItem> recordedItems)
 	{
-		for (RecordedItem currentItem : recordedItems)
+		for (RecordedItem currentItem : recordedItems.values())
 		{
 			ItemInfoDTO currentInfo = currentItem.getInfo();
 
@@ -331,8 +331,6 @@ public class Printer
 	 */
 	public void printReceipt(SaleInfoDTO saleInfo)
 	{
-		Collection<RecordedItem> recordedItems = saleInfo.getCollectionOfRecordedItems();
-
 		updateTimeOfSaleString(saleInfo.getTimeOfSale());
 
 		updateTwoPartRows(saleInfo);
@@ -347,7 +345,7 @@ public class Printer
 
 		printReceiptEmptyRow();
 
-		printReceiptItems(recordedItems);
+		printReceiptItems(saleInfo.getRecordedItems());
 
 		printReceiptEmptyRow();
 

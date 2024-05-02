@@ -18,8 +18,8 @@ class ControllerTest
 	@Test
 	public void scanItemTest()
 	{
-		ItemIdDTO idThatShouldExist    = new ItemIdDTO("appleRed");
-		ItemIdDTO idThatShouldNotExist = new ItemIdDTO("appleBlue");
+		ItemIdDTO idThatShouldExist    = new ItemIdDTO("apple");
+		ItemIdDTO idThatShouldNotExist = new ItemIdDTO("thisShouldNotExist!");
 
 		ScanInfoDTO scanInfoThatShouldExist    = controller.scanItem(idThatShouldExist, 1);
 		ScanInfoDTO scanInfoThatShouldNotExist = controller.scanItem(idThatShouldNotExist, 1);

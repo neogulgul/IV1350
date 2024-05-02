@@ -1,9 +1,9 @@
 package se.kth.iv1350.model;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Collection;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * DTO representing information about a sale.
@@ -49,12 +49,12 @@ public class SaleInfoDTO
 	}
 
 	/**
-	 * Getter for collection of recorded items.
-	 * @return A collection of recorded items which can be looped through.
+	 * Getter for recorded items.
+	 * @return All recorded items of the entire sale.
 	 */
-	public Collection<RecordedItem> getCollectionOfRecordedItems()
+	public Map<ItemIdDTO, RecordedItem> getRecordedItems()
 	{
-		return recordedItems.values();
+		return recordedItems;
 	}
 
 	/**

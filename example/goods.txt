@@ -1,11 +1,5 @@
-appleMystery  1
-appleMystery  1
-appleMystery  1
-appleMystery  1
-appleMystery  1
-appleRed     10
-appleGreen  120
-appleMystery 15
-bananaNormal 10
-bananaGolden  1
-eggDispenser 12
+book         5
+freeMoney 1000
+apple       10
+banana     100
+waterBottle 10
