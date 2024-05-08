@@ -61,10 +61,4 @@ class ItemInfoDTOTest
 	{
 		assertEquals(price + itemInfo.calculateCostOfVat(), itemInfo.calculateCostIncludingVat(), "the cost including vat is wrong");
 	}
-
-	@Test
-	public void makeVatStringTest()
-	{
-		assertEquals(Util.standardDoubleString(vat * 100) + "%", itemInfo.makeVatString(), "the vat string is wrong");
-	}
 }

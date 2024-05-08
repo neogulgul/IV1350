@@ -34,27 +34,12 @@ public class Controller
 	}
 
 	/**
-	 * Prints out all the items and their respective information that is stored in the external inventory system.
+	 * Getter for the inventory item stock.
+	 * @return Returns a hashmap in the form of <code>Map&lt;ItemIdDTO, ItemInfoDTO&gt;</code>.
 	 */
-	public void printInventoryItemStock()
+	public Map<ItemIdDTO, ItemInfoDTO> getInventoryItemStock()
 	{
-		Map<ItemIdDTO, ItemInfoDTO> itemStock = inventory.getItemStock();
-
-		System.out.println("ID\tINFO");
-
-		for (ItemIdDTO itemId : itemStock.keySet())
-		{
-			ItemInfoDTO itemInfo = itemStock.get(itemId);
-
-			System.out.println();
-
-			System.out.println(itemId);
-			System.out.println("\tName             : " + itemInfo.getName());
-			System.out.println("\tPrice            : " + itemInfo.makePriceString());
-			System.out.println("\tVAT              : " + itemInfo.makeVatString());
-			System.out.println("\tCost (incl. VAT) : " + itemInfo.makeCostIncludingVatString());
-			System.out.println("\tDescription      : " + itemInfo.getDescription());
-		}
+		return inventory.getItemStock();
 	}
 
 	/**

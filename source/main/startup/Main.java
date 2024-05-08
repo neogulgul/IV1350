@@ -24,7 +24,7 @@ public class Main
 
 		if (args.length == 1 && args[0].equals("inventory"))
 		{
-			controller.printInventoryItemStock();
+			view.printInventoryItemStock();
 		}
 		else if (args.length == 2)
 		{

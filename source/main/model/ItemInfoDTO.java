@@ -98,40 +98,4 @@ public class ItemInfoDTO
 	{
 		return price + calculateCostOfVat();
 	}
-
-	/**
-	 * Makes a <code>String</code> from the price.
-	 * @return <code>String</code> of the price with a currency code appended.
-	 */
-	public String makePriceString()
-	{
-		return Util.asCurrency(Util.standardDoubleString(price));
-	}
-
-	/**
-	 * Makes a <code>String</code> from the VAT rate.
-	 * @return <code>String</code> of the VAT rate in percentage form.
-	 */
-	public String makeVatString()
-	{
-		return Util.standardDoubleString(vat * 100) + "%";
-	}
-
-	/**
-	 * Makes a <code>String</code> from the VAT cost.
-	 * @return <code>String</code> of the VAT cost with a currency code appended.
-	 */
-	public String makeCostOfVatString()
-	{
-		return Util.asCurrency(Util.standardDoubleString(calculateCostOfVat()));
-	}
-
-	/**
-	 * Makes a <code>String</code> from the cost including VAT.
-	 * @return <code>String</code> of the cost including VAT with a currency code appended.
-	 */
-	public String makeCostIncludingVatString()
-	{
-		return Util.asCurrency(Util.standardDoubleString(calculateCostIncludingVat()));
-	}
 }

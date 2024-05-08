@@ -1,5 +1,8 @@
 package se.kth.iv1350.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import se.kth.iv1350.constants.Constants;
 import se.kth.iv1350.controller.Controller;
 import se.kth.iv1350.model.ItemIdDTO;
@@ -26,6 +29,19 @@ public class View
 		this.controller = controller;
 	}
 
+	private void printItemInfo(ItemInfoDTO itemInfo)
+	{
+		String priceString            = Util.asCurrency(Util.standardDoubleString(itemInfo.getPrice()));
+		String vatString              = Util.standardDoubleString(itemInfo.getVat() * 100) + "%";
+		String costIncludingVatString = Util.asCurrency(Util.standardDoubleString(itemInfo.calculateCostIncludingVat()));
+
+		System.out.println("\tName             : " + itemInfo.getName());
+		System.out.println("\tPrice            : " + priceString);
+		System.out.println("\tVAT              : " + vatString);
+		System.out.println("\tCost (incl. VAT) : " + costIncludingVatString);
+		System.out.println("\tDescription      : " + itemInfo.getDescription());
+	}
+
 	private void handleScanInfo(ScanInfoDTO scanInfo)
 	{
 		if (scanInfo.isValid())
@@ -37,12 +53,8 @@ public class View
 			double roundedTotalCost = Util.roundDouble(scanInfo.getCostOfEntireSale(), Constants.DECIMAL_PLACE_PRECISION);
 			double roundedTotalVat  = Util.roundDouble(scanInfo.getVatCostOfEntireSale() , Constants.DECIMAL_PLACE_PRECISION);
 
-			System.out.println(String.format("Scanned \"%s\" x %d:", scannedItemInfo.getName(), scannedItemQuantity));
-			System.out.println("\tItem ID               : " + scannedItemId);
-			System.out.println("\tItem price            : " + scannedItemInfo.makePriceString());
-			System.out.println("\tItem VAT              : " + scannedItemInfo.makeVatString());
-			System.out.println("\tItem cost (incl. VAT) : " + scannedItemInfo.makeCostIncludingVatString());
-			System.out.println("\tItem description      : " + scannedItemInfo.getDescription());
+			System.out.println(String.format("Scanned item with ID \"%s\" x %d:", scannedItemId, scannedItemQuantity));
+			printItemInfo(scannedItemInfo);
 			System.out.println();
 
 			String runningCostString = Util.asCurrency(Util.standardDoubleString(scanInfo.getCostOfEntireSale()));
@@ -114,6 +126,25 @@ public class View
 	private void sendPaymentError()
 	{
 		System.out.println("Insufficient payment >:(");
+	}
+
+	/**
+	 * Prints out all the items and their respective information that is stored in the external inventory system.
+	 */
+	public void printInventoryItemStock()
+	{
+		Map<ItemIdDTO, ItemInfoDTO> itemStock = controller.getInventoryItemStock();
+
+		System.out.println("ID\tINFO");
+
+		for (ItemIdDTO itemId : itemStock.keySet())
+		{
+			ItemInfoDTO itemInfo = itemStock.get(itemId);
+
+			System.out.println();
+			System.out.println(itemId);
+			printItemInfo(itemInfo);
+		}
 	}
 
 	/**
