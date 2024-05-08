@@ -27,6 +27,8 @@ ANSI_FG_BLUE      := "34"
 ANSI_FG_MAGENTA   := "35"
 ANSI_FG_CYAN      := "36"
 
+.PHONY: compile docs clean-target clean-docs clean
+
 compile: clean-target
 	@./colored_box_prompt.sh "Compiling main classes" $(ANSI_FG_YELLOW)
 	javac -cp $(dependencies) -d $(main_target_dir) $(main_files)
@@ -40,7 +42,7 @@ compile: clean-target
 	@./colored_box_prompt.sh "Running program" $(ANSI_FG_GREEN)
 	./run.sh
 
-docs: clean-documentation
+docs: clean-docs
 	@./colored_box_prompt.sh "Compiling documentation" $(ANSI_FG_YELLOW)
 	javadoc -quiet -d $(documentation_dir) $(main_files)
 
@@ -48,8 +50,8 @@ clean-target:
 	@./colored_box_prompt.sh "Removing target directory" $(ANSI_FG_RED)
 	rm -rf $(target_dir)
 
-clean-documentation:
+clean-docs:
 	@./colored_box_prompt.sh "Removing documentation directory" $(ANSI_FG_RED)
 	rm -rf $(documentation_dir)
 
-clean: clean-target clean-documentation
+clean: clean-target clean-docs

@@ -57,15 +57,15 @@ public class Controller
 	 * @param quantity The quantity of the item that is being scanned, which the sale keeps track of.
 	 *
 	 * @return Returns a {@link ScanInfoDTO} which contains all the important information about the scan that just took place.
+	 *
+	 * @throws ItemNotFoundException If the item could not be found in the inventory system.
 	 */
 	public ScanInfoDTO scanItem(ItemIdDTO itemId, int quantity)
+	throws ItemNotFoundException
 	{
 		ItemInfoDTO itemInfo = inventory.retrieveItemInfo(itemId);
 
-		if (itemInfo.isValid())
-		{
-			currentSale.recordItem(itemId, itemInfo, quantity);
-		}
+		currentSale.recordItem(itemId, itemInfo, quantity);
 
 		return new ScanInfoDTO(itemId, itemInfo, quantity, currentSale.getCostOfEntireSale(), currentSale.getVatCostOfEntireSale());
 	}
@@ -90,23 +90,19 @@ public class Controller
 	 *
 	 * @param payment The payment received from the customer.
 	 *
-	 * @return Returns a <code>boolean</code> which indicates whether or not the payment was sufficient for covering the cost of the entire sale.
+	 * @throws InsufficientPaymentException When the payment was not sufficient to cover the costs of the entire sale.
 	 */
-	public boolean completeTransaction(double payment)
+	public void completeTransaction(double payment)
+	throws InsufficientPaymentException
 	{
-		boolean sufficientPayment = currentSale.handlePayment(payment);
+		currentSale.handlePayment(payment);
 
-		if (sufficientPayment)
-		{
-			SaleInfoDTO saleInfo = currentSale.createInfoDTO();
+		SaleInfoDTO saleInfo = currentSale.createInfoDTO();
 
-			salesLog.logSale(saleInfo);
-			accounting.updateAccounts(saleInfo);
-			inventory.updateQuantity(saleInfo);
-			register.increaseAmount(saleInfo.getCostOfEntireSale());
-			printer.printReceipt(saleInfo);
-		}
-
-		return sufficientPayment;
+		salesLog.logSale(saleInfo);
+		accounting.updateAccounts(saleInfo);
+		inventory.updateQuantity(saleInfo);
+		register.increaseAmount(saleInfo.getCostOfEntireSale());
+		printer.printReceipt(saleInfo);
 	}
 }

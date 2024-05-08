@@ -19,6 +19,9 @@ public class Register
 	 */
 	public void increaseAmount(double amountToAdd)
 	{
-		System.out.println("Amount in register increased by: " + Util.asCurrency(Util.standardDoubleString(amountToAdd)));
+		if (amountToAdd != 0)
+		{
+			System.out.println("Amount in register increased by: " + Util.asCurrency(Util.standardDoubleString(amountToAdd)));
+		}
 	}
 }

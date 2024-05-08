@@ -19,6 +19,13 @@ public class SalesLog
 	 */
 	public void logSale(SaleInfoDTO saleInfo)
 	{
-		System.out.println("Updated sales log.");
+		if (saleInfo.getEmptyStatus())
+		{
+			System.out.println("No change was made to the sales log.");
+		}
+		else
+		{
+			System.out.println("Updated sales log.");
+		}
 	}
 }

@@ -3,6 +3,7 @@ package se.kth.iv1350.model;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import se.kth.iv1350.constants.Constants;
 import se.kth.iv1350.util.Util;
@@ -26,8 +27,6 @@ public class Sale
 
 	private void incrementQuantity(ItemIdDTO itemId, int incrementStep)
 	{
-		if (!previouslyRecorded(itemId)) return;
-
 		RecordedItem recordedItem = recordedItems.get(itemId);
 		recordedItem.modifyQuantity(incrementStep);
 
@@ -109,8 +108,6 @@ public class Sale
 	 */
 	public void recordItem(ItemIdDTO itemId, ItemInfoDTO itemInfo, int quantity)
 	{
-		if (quantity <= 0) return;
-
 		if (previouslyRecorded(itemId))
 		{
 			incrementQuantity(itemId, quantity);
@@ -130,7 +127,12 @@ public class Sale
 	 */
 	public SaleInfoDTO createInfoDTO()
 	{
+		Set<ItemIdDTO> recordedIds = recordedItems.keySet();
+		int uniqueIds = recordedIds.size();
+		boolean emptyStatus = uniqueIds == 0;
+
 		return new SaleInfoDTO(
+			emptyStatus,
 			recordedItems,
 			costOfEntireSale,
 			vatOfEntireSale,
@@ -154,13 +156,17 @@ public class Sale
 	 *
 	 * @param payment Customer payment.
 	 *
-	 * @return <code>boolean</code> representing whether or not the payment was sufficient to cover the costs of the entire sale or not.
+	 * @throws InsufficientPaymentException When the payment was not sufficient to cover the costs of the entire sale.
 	 */
-	public boolean handlePayment(double payment)
+	public void handlePayment(double payment)
+	throws InsufficientPaymentException
 	{
+		if (payment < costOfEntireSale)
+		{
+			throw new InsufficientPaymentException(payment, costOfEntireSale);
+		}
+
 		paymentFromCustomer = payment;
 		changeForCustomer   = payment - costOfEntireSale;
-
-		return changeForCustomer >= 0;
 	}
 }

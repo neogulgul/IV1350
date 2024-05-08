@@ -1,10 +1,13 @@
 package se.kth.iv1350.view;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
 import se.kth.iv1350.constants.Constants;
 import se.kth.iv1350.controller.Controller;
+import se.kth.iv1350.integration.ItemNotFoundException;
+import se.kth.iv1350.model.InsufficientPaymentException;
 import se.kth.iv1350.model.ItemIdDTO;
 import se.kth.iv1350.model.ItemInfoDTO;
 import se.kth.iv1350.model.ScanInfoDTO;
@@ -42,68 +45,75 @@ public class View
 		System.out.println("\tDescription      : " + itemInfo.getDescription());
 	}
 
-	private void handleScanInfo(ScanInfoDTO scanInfo)
+	private void printValidScan(ScanInfoDTO scanInfo)
 	{
-		if (scanInfo.isValid())
-		{
-			ItemIdDTO scannedItemId     = scanInfo.getItemId();
-			ItemInfoDTO scannedItemInfo = scanInfo.getItemInfo();
-			int scannedItemQuantity     = scanInfo.getQuantity();
+		ItemIdDTO scannedItemId     = scanInfo.getItemId();
+		ItemInfoDTO scannedItemInfo = scanInfo.getItemInfo();
+		int scannedItemQuantity     = scanInfo.getQuantity();
 
-			double roundedTotalCost = Util.roundDouble(scanInfo.getCostOfEntireSale(), Constants.DECIMAL_PLACE_PRECISION);
-			double roundedTotalVat  = Util.roundDouble(scanInfo.getVatCostOfEntireSale() , Constants.DECIMAL_PLACE_PRECISION);
+		double roundedTotalCost = Util.roundDouble(scanInfo.getCostOfEntireSale(), Constants.DECIMAL_PLACE_PRECISION);
+		double roundedTotalVat  = Util.roundDouble(scanInfo.getVatCostOfEntireSale() , Constants.DECIMAL_PLACE_PRECISION);
 
-			System.out.println(String.format("Scanned item with ID \"%s\" x %d:", scannedItemId, scannedItemQuantity));
-			printItemInfo(scannedItemInfo);
-			System.out.println();
+		System.out.println(String.format("Scanned item with ID \"%s\" x %d:", scannedItemId, scannedItemQuantity));
+		printItemInfo(scannedItemInfo);
+		System.out.println();
 
-			String runningCostString = Util.asCurrency(Util.standardDoubleString(scanInfo.getCostOfEntireSale()));
-			String runningVatString  = Util.asCurrency(Util.standardDoubleString(scanInfo.getVatCostOfEntireSale()));
+		String runningCostString = Util.asCurrency(Util.standardDoubleString(scanInfo.getCostOfEntireSale()));
+		String runningVatString  = Util.asCurrency(Util.standardDoubleString(scanInfo.getVatCostOfEntireSale()));
 
-			System.out.println("Total cost (incl. VAT) : " + runningCostString);
-			System.out.println("Total cost of VAT      : " + runningVatString);
+		System.out.println("Total cost (incl. VAT) : " + runningCostString);
+		System.out.println("Total cost of VAT      : " + runningVatString);
 
-			System.out.println();
-		}
-		else
-		{
-			System.out.println(scanInfo.getItemId() + " is not a valid item...");
-			System.out.println();
-		}
+		System.out.println();
 	}
 
 	private void scanGoods(String goodsFilepath)
 	{
-		String goodsText = Util.readFromFile(goodsFilepath);
-		String[] goodsLines = goodsText.split("\n");
-		for (String line : goodsLines)
+		try
 		{
-			String[] lineSplit = line.split(Constants.REGEX_SEQUENCE_OF_SPACES);
-			if (lineSplit.length == 2)
+			String goodsText = Util.readFromFile(goodsFilepath);
+			String[] goodsLines = goodsText.split("\n");
+			for (String line : goodsLines)
 			{
-				ItemIdDTO itemId = new ItemIdDTO(lineSplit[0]);
-
-				int quantity;
-
-				try
+				String[] lineSplit = line.split(Constants.REGEX_SEQUENCE_OF_SPACES);
+				if (lineSplit.length == 2)
 				{
-					quantity = Math.max(1, Integer.parseInt(lineSplit[1]));
-				}
-				catch (NumberFormatException e)
-				{
-					quantity = 0;
-				}
+					ItemIdDTO itemId = new ItemIdDTO(lineSplit[0]);
 
-				if (quantity > 0)
-				{
-					ScanInfoDTO scanInfo = controller.scanItem(itemId, quantity);
-					handleScanInfo(scanInfo);
+					int quantity;
+
+					try
+					{
+						quantity = Math.max(1, Integer.parseInt(lineSplit[1]));
+					}
+					catch (NumberFormatException e)
+					{
+						quantity = 0;
+					}
+
+					if (quantity > 0)
+					{
+						try
+						{
+							ScanInfoDTO scanInfo = controller.scanItem(itemId, quantity);
+							printValidScan(scanInfo);
+						}
+						catch (ItemNotFoundException e)
+						{
+							System.out.println(e.getMessage() + "\n");
+						}
+					}
 				}
 			}
+		}
+		catch (FileNotFoundException e)
+		{
+			System.out.println("Goods file was not found.");
 		}
 	}
 
 	private double readPayment(String paymentFilepath)
+	throws FileNotFoundException
 	{
 		String paymentText = Util.readFromFile(paymentFilepath);
 
@@ -121,11 +131,6 @@ public class View
 		System.out.println("Customer pays: " + Util.asCurrency(Util.standardDoubleString(payment)));
 
 		return payment;
-	}
-
-	private void sendPaymentError()
-	{
-		System.out.println("Insufficient payment >:(");
 	}
 
 	/**
@@ -163,13 +168,22 @@ public class View
 
 		controller.checkForDiscount();
 
-		double payment = readPayment(paymentFilepath);
-
-		boolean transactionSuccess = controller.completeTransaction(payment);
-
-		if (!transactionSuccess)
+		try
 		{
-			sendPaymentError();
+			double payment = readPayment(paymentFilepath);
+
+			try
+			{
+				controller.completeTransaction(payment);
+			}
+			catch (InsufficientPaymentException e)
+			{
+				System.out.println(e.getMessage());
+			}
+		}
+		catch (FileNotFoundException e)
+		{
+			System.out.println("Payment file was not found.");
 		}
 	}
 }

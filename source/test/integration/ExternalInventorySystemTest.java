@@ -18,7 +18,13 @@ class ExternalInventorySystemTest
 	@Test
 	public void retrieveItemInfoTest()
 	{
-		ItemInfoDTO itemInfo = inventory.retrieveItemInfo(new ItemIdDTO("THIS_SHOULD_DEFINITELY_NOT_EXIST"));
-		assertEquals(false, itemInfo.isValid(), "this should not be valid, but is");
+		try
+		{
+			ItemInfoDTO itemInfo = inventory.retrieveItemInfo(new ItemIdDTO("THIS_SHOULD_DEFINITELY_NOT_EXIST"));
+			fail("the item was found when it should not exist");
+		}
+		catch (ItemNotFoundException e)
+		{
+		}
 	}
 }

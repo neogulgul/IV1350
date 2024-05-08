@@ -21,12 +21,6 @@ class ItemInfoDTOTest
 	}
 
 	@Test
-	public void isValidTest()
-	{
-		assertEquals(true, itemInfo.isValid(), "this should be valid, but is not");
-	}
-
-	@Test
 	public void getNameTest()
 	{
 		assertEquals(name, itemInfo.getName(), "the name is wrong");

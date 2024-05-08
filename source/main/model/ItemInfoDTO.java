@@ -13,14 +13,6 @@ public class ItemInfoDTO
 	private double vat;
 
 	/**
-	 * Constructor with no parameters which represents invalid item information.
-	 */
-	public ItemInfoDTO()
-	{
-		this.name = null;
-	}
-
-	/**
 	 * Constructor with results in valid item information.
 	 *
 	 * @param name Item name.
@@ -30,19 +22,10 @@ public class ItemInfoDTO
 	 */
 	public ItemInfoDTO(String name, String description, double price, double vat)
 	{
-		this.name = name;
+		this.name        = name;
 		this.description = description;
-		this.price = price;
-		this.vat = vat;
-	}
-
-	/**
-	 * Check if the item information is valid.
-	 * @return Whether or not the item information is indeed valid or not.
-	 */
-	public boolean isValid()
-	{
-		return name != null;
+		this.price       = price;
+		this.vat         = vat;
 	}
 
 	/**

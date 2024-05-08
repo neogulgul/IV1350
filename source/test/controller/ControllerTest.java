@@ -3,6 +3,7 @@ package se.kth.iv1350.controller;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import se.kth.iv1350.integration.*;
 import se.kth.iv1350.model.*;
 
 class ControllerTest
@@ -22,11 +23,24 @@ class ControllerTest
 		ItemIdDTO idThatShouldExist    = new ItemIdDTO("apple");
 		ItemIdDTO idThatShouldNotExist = new ItemIdDTO("thisShouldNotExist!");
 
-		ScanInfoDTO scanInfoThatShouldExist    = controller.scanItem(idThatShouldExist, 1);
-		ScanInfoDTO scanInfoThatShouldNotExist = controller.scanItem(idThatShouldNotExist, 1);
 
-		assertEquals(true, scanInfoThatShouldExist.isValid(), "this should exist, but does not");
-		assertEquals(false, scanInfoThatShouldNotExist.isValid(), "this should not exist, but does");
+		try
+		{
+			controller.scanItem(idThatShouldExist, 1);
+		}
+		catch (ItemNotFoundException e)
+		{
+			fail("Item is not valid when it should be.");
+		}
+
+		try
+		{
+			controller.scanItem(idThatShouldNotExist, 1);
+			fail("Item is valid when it should not be.");
+		}
+		catch (ItemNotFoundException e)
+		{
+		}
 	}
 
 	@Test
@@ -34,7 +48,24 @@ class ControllerTest
 	{
 		controller.endSale();
 
-		assertEquals(true, controller.completeTransaction(100), "should be allowed, but is not");
-		assertEquals(false, controller.completeTransaction(-100), "should not be allowed, but is");
+		try
+		{
+			System.out.println("Completing transaction during testing which should succeed.");
+			controller.completeTransaction(100);
+		}
+		catch (InsufficientPaymentException e)
+		{
+			fail("should be allowed, but is not");
+		}
+
+		try
+		{
+			System.out.println("Completing transaction during testing which should not succeed.");
+			controller.completeTransaction(-100);
+			fail("should not be allowed, but is");
+		}
+		catch (InsufficientPaymentException e)
+		{
+		}
 	}
 }

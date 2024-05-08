@@ -30,15 +30,6 @@ public class ScanInfoDTO
 	}
 
 	/**
-	 * Getter for if the scan info is valid.
-	 * @return Whether or not the scan info is valid or not.
-	 */
-	public boolean isValid()
-	{
-		return itemInfo.isValid();
-	}
-
-	/**
 	 * Getter for id of scanned item.
 	 * @return Id of scanned item.
 	 */

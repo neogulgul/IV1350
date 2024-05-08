@@ -215,30 +215,26 @@ public class Util
 	 * @param filepath The path to the text file to read from.
 	 *
 	 * @return <code>string</code> containing the contents of the textfile.
+	 *
+	 * @throws FileNotFoundException If the file is not found.
 	 */
 	public static String readFromFile(String filepath)
+	throws FileNotFoundException
 	{
-		try
+		StringBuilder contents = new StringBuilder();
+		File file = new File(filepath);
+		Scanner scanner = new Scanner(file);
+
+		if (scanner.hasNextLine())
 		{
-			StringBuilder contents = new StringBuilder();
-			File file = new File(filepath);
-			Scanner scanner = new Scanner(file);
-
-			if (scanner.hasNextLine())
+			while (scanner.hasNextLine())
 			{
-				while (scanner.hasNextLine())
-				{
-					contents.append(scanner.nextLine() + "\n");
-				}
-
-				contents.deleteCharAt(contents.length() - 1);
+				contents.append(scanner.nextLine() + "\n");
 			}
 
-			return contents.toString();
+			contents.deleteCharAt(contents.length() - 1);
 		}
-		catch (FileNotFoundException e)
-		{
-			return "";
-		}
+
+		return contents.toString();
 	}
 };

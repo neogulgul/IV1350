@@ -20,6 +20,13 @@ public class ExternalAccountingSystem
 	 */
 	public void updateAccounts(SaleInfoDTO saleInfo)
 	{
-		System.out.println("Updated external accounting system.");
+		if (saleInfo.getEmptyStatus())
+		{
+			System.out.println("No change was made to the external accounting system.");
+		}
+		else
+		{
+			System.out.println("Updated external accounting system.");
+		}
 	}
 }

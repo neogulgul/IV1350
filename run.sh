@@ -5,7 +5,7 @@ args="$@"
 if [[ "$args" == "" ]]
 then
 
-args="example/goods.txt example/payment.txt"
+args="-p examples/1.Default"
 
 fi
 

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import se.kth.iv1350.model.*;
+import se.kth.iv1350.util.Logger;
 
 /**
  * {@link ExternalInventorySystem} represents an external inventory system.
@@ -12,7 +13,7 @@ import se.kth.iv1350.model.*;
 public class ExternalInventorySystem
 {
 	private Map<ItemIdDTO, ItemInfoDTO> itemStock = new HashMap<>();
-	private final ItemInfoDTO INVALID_ITEM_INFO = new ItemInfoDTO();
+	private ItemIdDTO databaseErrorItemId = new ItemIdDTO("THROW_DATABASE_UNAVAILABLE_EXCEPTION");
 
 	private class Vat
 	{
@@ -81,17 +82,25 @@ public class ExternalInventorySystem
 	 *
 	 * @return Information about the item with the given item id.
 	 *         If the item id was not found in the stock it returns invalid item information.
+	 *
+	 * @throws ItemNotFoundException If the item is not found inside the item stock.
 	 */
 	public ItemInfoDTO retrieveItemInfo(ItemIdDTO itemId)
+	throws ItemNotFoundException
 	{
+		if (itemId.equals(databaseErrorItemId))
+		{
+			DatabaseUnavailableException exception = new DatabaseUnavailableException("external inventory system");
+			Logger.getInstance().logException(exception);
+			throw exception;
+		}
+
 		if (itemStock.containsKey(itemId))
 		{
 			return itemStock.get(itemId);
 		}
-		else
-		{
-			return INVALID_ITEM_INFO;
-		}
+
+		throw new ItemNotFoundException(itemId);
 	}
 
 	/**
@@ -101,11 +110,7 @@ public class ExternalInventorySystem
 	 */
 	public void updateQuantity(SaleInfoDTO saleInfo)
 	{
-		Map<ItemIdDTO, RecordedItem> recordedItems = saleInfo.getRecordedItems();
-		Set<ItemIdDTO> recordedIds = recordedItems.keySet();
-		int uniqueIds = recordedIds.size();
-
-		if (uniqueIds == 0)
+		if (saleInfo.getEmptyStatus())
 		{
 			System.out.println("No change was made to the external inventory system.");
 		}
@@ -113,11 +118,13 @@ public class ExternalInventorySystem
 		{
 			System.out.println("Changes in external inventory system:");
 
-			for (ItemIdDTO itemId : recordedIds)
+			Map<ItemIdDTO, RecordedItem> recordedItems = saleInfo.getRecordedItems();
+
+			for (ItemIdDTO itemId : recordedItems.keySet())
 			{
 				RecordedItem recordedItem = recordedItems.get(itemId);
 				System.out.println(String.format(
-					"\tQuantity of %s was decreased by %d units.",
+					"\tQuantity of \"%s\" was decreased by %d units.",
 					itemId,
 					recordedItem.getQuantity()
 				));

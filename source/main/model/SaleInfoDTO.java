@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class SaleInfoDTO
 {
+	private boolean emptyStatus;
 	private Map<ItemIdDTO, RecordedItem> recordedItems = new HashMap<>();
 	private double costOfEntireSale;
 	private double vatOfEntireSale;
@@ -21,6 +22,7 @@ public class SaleInfoDTO
 	/**
 	 * Constructor.
 	 *
+	 * @param emptyStatus Whether or not the sale was empty (no recorded items).
 	 * @param recordedItems Items that have been recorded.
 	 * @param costOfEntireSale Cost of the entire sale.
 	 * @param vatOfEntireSale VAT cost of the entire sale.
@@ -30,6 +32,7 @@ public class SaleInfoDTO
 	 * @param stringLengthInfo Information about string lengths of item information which is used by the printer to align text in the receipt.
 	 */
 	public SaleInfoDTO(
+		boolean emptyStatus,
 		Map<ItemIdDTO, RecordedItem> recordedItems,
 		double costOfEntireSale,
 		double vatOfEntireSale,
@@ -39,6 +42,7 @@ public class SaleInfoDTO
 		SaleStringLengthInfoDTO stringLengthInfo
 	)
 	{
+		this.emptyStatus         = emptyStatus;
 		this.recordedItems       = recordedItems;
 		this.costOfEntireSale    = costOfEntireSale;
 		this.vatOfEntireSale     = vatOfEntireSale;
@@ -49,12 +53,28 @@ public class SaleInfoDTO
 	}
 
 	/**
-	 * Getter for recorded items.
+	 * Getter for the empty status of the sale which indicates whether or not the sale had any items added to it.
+	 * @return Empty status of the sale.
+	 */
+	public boolean getEmptyStatus()
+	{
+		return emptyStatus;
+	}
+
+	/**
+	 * Getter for recorded items that is deep copied, so changing the return value of this method avoids changing {@link recordedItems}.
 	 * @return All recorded items of the entire sale.
 	 */
 	public Map<ItemIdDTO, RecordedItem> getRecordedItems()
 	{
-		return recordedItems;
+		Map<ItemIdDTO, RecordedItem> deepCopy = new HashMap<>();
+
+		for (ItemIdDTO itemId : recordedItems.keySet())
+		{
+			deepCopy.put(itemId, recordedItems.get(itemId));
+		}
+
+		return deepCopy;
 	}
 
 	/**

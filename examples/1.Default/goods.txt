@@ -1,5 +1,4 @@
 book         5
-freeMoney 1000
 apple       10
 banana     100
 waterBottle 10

@@ -3,6 +3,8 @@ package se.kth.iv1350.util;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.FileNotFoundException;
+
 import se.kth.iv1350.constants.Constants;
 
 class UtilTest
@@ -83,6 +85,14 @@ class UtilTest
 	@Test
 	public void readFromFileTest()
 	{
-		assertEquals("This is a test :o", Util.readFromFile("for_testing/textfiletest.txt"), "reading from file did not work as expected");
+		try
+		{
+			String fileContent = Util.readFromFile("for_testing/textfiletest.txt");
+			assertEquals("This is a test :o", fileContent, "reading from file did not work as expected");
+		}
+		catch (FileNotFoundException e)
+		{
+			fail("file was not found even though it should exist");
+		}
 	}
 }
