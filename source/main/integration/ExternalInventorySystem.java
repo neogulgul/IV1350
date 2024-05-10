@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import se.kth.iv1350.model.*;
-import se.kth.iv1350.util.Logger;
+import se.kth.iv1350.util.ExceptionLogger;
 
 /**
  * {@link ExternalInventorySystem} represents an external inventory system.
@@ -91,7 +91,7 @@ public class ExternalInventorySystem
 		if (itemId.equals(databaseErrorItemId))
 		{
 			DatabaseUnavailableException exception = new DatabaseUnavailableException("external inventory system");
-			Logger.getInstance().logException(exception);
+			ExceptionLogger.getInstance().log(exception);
 			throw exception;
 		}
 

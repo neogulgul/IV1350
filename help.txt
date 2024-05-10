@@ -1,0 +1,18 @@
+Usage: "java -cp <classpath> se.kth.iv1350.startup.Main <options...>"
+Single option:
+	--help, -h
+		Displays helpful information
+	--inventory, -i
+		Displays inventory
+Multiple options:
+	<goods> <payment>
+		Default behaviour with goods from <goods> and payment from <payment>
+	--path <path>, -p <path>
+		Default behaviour with goods from <path>/goods.txt and payment from <path>/payment.txt
+Examples:
+	java -cp <classpath> se.kth.iv1350.startup.Main goods1.txt payment1.txt -p sale1 goods2.txt payment2.txt -p sale2
+		Multiple options can be stacked and ordered in any way.
+		This will simulate four different sales.
+		The first sale will takes goods from goods1.txt and payment from payment1.txt.
+		The second sale will takes goods from sale1/goods.txt and payment from sale1/payment.txt.
+		The third and fourth sale follow the same logic.

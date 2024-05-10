@@ -10,11 +10,11 @@ import se.kth.iv1350.constants.Constants;
 /**
  * Responsible for logging exceptions.
  */
-public class Logger
+public class ExceptionLogger
 {
-	private static final String LOG_FILENAME = "sale-log.txt";
-	private static final Logger INSTANCE = new Logger();
-	private static PrintWriter logWriter;
+	private static final String LOG_FILENAME = "sale-exceptions-log.txt";
+	private static final ExceptionLogger INSTANCE = new ExceptionLogger();
+	private PrintWriter logWriter;
 
 	private static String createTimeString()
 	{
@@ -30,7 +30,7 @@ public class Logger
 		);
 	}
 
-	private Logger()
+	private ExceptionLogger()
 	{
 		try
 		{
@@ -46,7 +46,7 @@ public class Logger
 	 * Getter for the instance of the logger which avoids the need to create the logger multiple times.
 	 * @return A reference to the logger instance.
 	 */
-	public static Logger getInstance()
+	public static ExceptionLogger getInstance()
 	{
 		return INSTANCE;
 	}
@@ -55,7 +55,7 @@ public class Logger
 	 * Logs an exception.
 	 * @param exception Exception to be logged.
 	 */
-	public void logException(Exception exception)
+	public void log(Exception exception)
 	{
 		logWriter.println(createTimeString());
 		exception.printStackTrace(logWriter);

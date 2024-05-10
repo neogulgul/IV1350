@@ -11,6 +11,8 @@ import se.kth.iv1350.model.InsufficientPaymentException;
 import se.kth.iv1350.model.ItemIdDTO;
 import se.kth.iv1350.model.ItemInfoDTO;
 import se.kth.iv1350.model.ScanInfoDTO;
+import se.kth.iv1350.model.SimulatedSaleDTO;
+import se.kth.iv1350.model.TotalRevenueFileOutput;
 import se.kth.iv1350.util.Util;
 
 /**
@@ -30,6 +32,8 @@ public class View
 	public View(Controller controller)
 	{
 		this.controller = controller;
+		controller.addSaleObserver(new TotalRevenueView());
+		controller.addSaleObserver(new TotalRevenueFileOutput());
 	}
 
 	private void printItemInfo(ItemInfoDTO itemInfo)
@@ -68,47 +72,41 @@ public class View
 	}
 
 	private void scanGoods(String goodsFilepath)
+	throws FileNotFoundException
 	{
-		try
+		String goodsText = Util.readFromFile(goodsFilepath);
+		String[] goodsLines = goodsText.split("\n");
+		for (String line : goodsLines)
 		{
-			String goodsText = Util.readFromFile(goodsFilepath);
-			String[] goodsLines = goodsText.split("\n");
-			for (String line : goodsLines)
+			String[] lineSplit = line.split(Constants.REGEX_SEQUENCE_OF_SPACES);
+			if (lineSplit.length == 2)
 			{
-				String[] lineSplit = line.split(Constants.REGEX_SEQUENCE_OF_SPACES);
-				if (lineSplit.length == 2)
+				ItemIdDTO itemId = new ItemIdDTO(lineSplit[0]);
+
+				int quantity;
+
+				try
 				{
-					ItemIdDTO itemId = new ItemIdDTO(lineSplit[0]);
+					quantity = Math.max(1, Integer.parseInt(lineSplit[1]));
+				}
+				catch (NumberFormatException e)
+				{
+					quantity = 0;
+				}
 
-					int quantity;
-
+				if (quantity > 0)
+				{
 					try
 					{
-						quantity = Math.max(1, Integer.parseInt(lineSplit[1]));
+						ScanInfoDTO scanInfo = controller.scanItem(itemId, quantity);
+						printValidScan(scanInfo);
 					}
-					catch (NumberFormatException e)
+					catch (ItemNotFoundException e)
 					{
-						quantity = 0;
-					}
-
-					if (quantity > 0)
-					{
-						try
-						{
-							ScanInfoDTO scanInfo = controller.scanItem(itemId, quantity);
-							printValidScan(scanInfo);
-						}
-						catch (ItemNotFoundException e)
-						{
-							System.out.println(e.getMessage() + "\n");
-						}
+						System.out.println(e.getMessage() + "\n");
 					}
 				}
 			}
-		}
-		catch (FileNotFoundException e)
-		{
-			System.out.println("Goods file was not found.");
 		}
 	}
 
@@ -152,38 +150,57 @@ public class View
 		}
 	}
 
-	/**
-	 * Used to run the bulk of the program.
-	 *
-	 * @param goodsFilepath   The filepath to the textfile containing information about the customer goods.
-	 * @param paymentFilepath The filepath to the textfile containing information about the customer payment.
-	 */
-	public void run(String goodsFilepath, String paymentFilepath)
+	private void simulateSale(SimulatedSaleDTO simulatedSale)
 	{
+		System.out.println("╭───────────────────────────────╢");
+		System.out.println("│ Starting new sale simulation!");
+		System.out.println("│    Goods   from: \"" + simulatedSale.getGoodsFilepath()   + "\"");
+		System.out.println("│    Payment from: \"" + simulatedSale.getPaymentFilepath() + "\"");
+		System.out.println("╰──────────────────╢");
+
 		controller.startSale();
-
-		scanGoods(goodsFilepath);
-
-		controller.endSale();
-
-		controller.checkForDiscount();
 
 		try
 		{
-			double payment = readPayment(paymentFilepath);
+			scanGoods(simulatedSale.getGoodsFilepath());
+
+			controller.endSale();
+
+			controller.checkForDiscount();
 
 			try
 			{
-				controller.completeTransaction(payment);
+				double payment = readPayment(simulatedSale.getPaymentFilepath());
+
+				try
+				{
+					controller.completeTransaction(payment);
+				}
+				catch (InsufficientPaymentException e)
+				{
+					System.out.println(e.getMessage());
+				}
 			}
-			catch (InsufficientPaymentException e)
+			catch (FileNotFoundException e)
 			{
-				System.out.println(e.getMessage());
+				System.out.println("Payment file was not found.");
 			}
 		}
 		catch (FileNotFoundException e)
 		{
-			System.out.println("Payment file was not found.");
+			System.out.println("Goods file was not found");
+		}
+	}
+
+	/**
+	 * Used to run the bulk of the program.
+	 * @param salesToSimulate The multiple sales to simulate.
+	 */
+	public void run(SimulatedSaleDTO... salesToSimulate)
+	{
+		for (SimulatedSaleDTO simulatedSale : salesToSimulate)
+		{
+			simulateSale(simulatedSale);
 		}
 	}
 }

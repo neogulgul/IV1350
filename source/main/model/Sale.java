@@ -1,7 +1,9 @@
 package se.kth.iv1350.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,12 +15,24 @@ import se.kth.iv1350.util.Util;
  */
 public class Sale
 {
+	private List<SaleObserver> observers = new ArrayList<>();
+
 	private Map<ItemIdDTO, RecordedItem> recordedItems = new HashMap<>();
 	private double costOfEntireSale = 0;
 	private double vatOfEntireSale  = 0;
 	private double paymentFromCustomer;
 	private double changeForCustomer;
 	private Calendar timeOfSale;
+
+	private SaleInfoDTO infoAboutSale;
+
+	private void notifyObservers()
+	{
+		for (SaleObserver observer : observers)
+		{
+			observer.newCompletedSale(infoAboutSale);
+		}
+	}
 
 	private boolean previouslyRecorded(ItemIdDTO itemId)
 	{
@@ -75,11 +89,38 @@ public class Sale
 		);
 	}
 
+	private SaleInfoDTO createInfoDTO()
+	{
+		Set<ItemIdDTO> recordedIds = recordedItems.keySet();
+		int uniqueIds = recordedIds.size();
+		boolean emptyStatus = uniqueIds == 0;
+
+		return new SaleInfoDTO(
+			emptyStatus,
+			recordedItems,
+			costOfEntireSale,
+			vatOfEntireSale,
+			paymentFromCustomer,
+			changeForCustomer,
+			timeOfSale,
+			createSaleStringLengthInfoDTO()
+		);
+	}
+
 	/**
 	 * {@link Sale} constructor.
 	 */
 	public Sale()
 	{}
+
+	/**
+	 * Adds observers that will observe this sale instance.
+	 * @param observers The observers to add.
+	 */
+	public void addObservers(List<SaleObserver> observers)
+	{
+		this.observers = observers;
+	}
 
 	/**
 	 * Getter for cost of entire sale.
@@ -97,6 +138,16 @@ public class Sale
 	public double getVatCostOfEntireSale()
 	{
 		return vatOfEntireSale;
+	}
+
+	/**
+	 * Getter for information about the current sale.
+	 * Make sure this is called after the sale has been completed with {@link complete}, otherwise the DTO will not be up to date.
+	 * @return Information about current sale.
+	 */
+	public SaleInfoDTO getInfoAboutSale()
+	{
+		return infoAboutSale;
 	}
 
 	/**
@@ -119,28 +170,6 @@ public class Sale
 
 		costOfEntireSale += itemInfo.calculateCostIncludingVat() * quantity;
 		vatOfEntireSale  += itemInfo.calculateCostOfVat()        * quantity;
-	}
-
-	/**
-	 * Creates information about the sale.
-	 * @return Sale information.
-	 */
-	public SaleInfoDTO createInfoDTO()
-	{
-		Set<ItemIdDTO> recordedIds = recordedItems.keySet();
-		int uniqueIds = recordedIds.size();
-		boolean emptyStatus = uniqueIds == 0;
-
-		return new SaleInfoDTO(
-			emptyStatus,
-			recordedItems,
-			costOfEntireSale,
-			vatOfEntireSale,
-			paymentFromCustomer,
-			changeForCustomer,
-			timeOfSale,
-			createSaleStringLengthInfoDTO()
-		);
 	}
 
 	/**
@@ -168,5 +197,14 @@ public class Sale
 
 		paymentFromCustomer = payment;
 		changeForCustomer   = payment - costOfEntireSale;
+	}
+
+	/**
+	 * Represents the completion of a sale.
+	 */
+	public void complete()
+	{
+		infoAboutSale = createInfoDTO();
+		notifyObservers();
 	}
 }

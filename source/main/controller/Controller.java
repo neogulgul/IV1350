@@ -1,6 +1,8 @@
 package se.kth.iv1350.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import se.kth.iv1350.integration.*;
@@ -11,6 +13,8 @@ import se.kth.iv1350.model.*;
  */
 public class Controller
 {
+	private List<SaleObserver> saleObservers = new ArrayList<>();
+
 	private DiscountDatabase discountDatabase;
 	private SalesLog salesLog;
 	private ExternalAccountingSystem accounting;
@@ -34,6 +38,15 @@ public class Controller
 	}
 
 	/**
+	 * Adds a new observer that will observe future sales.
+	 * @param observer The observer to add.
+	 */
+	public void addSaleObserver(SaleObserver observer)
+	{
+		saleObservers.add(observer);
+	}
+
+	/**
 	 * Getter for the inventory item stock.
 	 * @return Returns a hashmap in the form of <code>Map&lt;ItemIdDTO, ItemInfoDTO&gt;</code>.
 	 */
@@ -48,6 +61,7 @@ public class Controller
 	public void startSale()
 	{
 		currentSale = new Sale();
+		currentSale.addObservers(saleObservers);
 	}
 
 	/**
@@ -96,8 +110,9 @@ public class Controller
 	throws InsufficientPaymentException
 	{
 		currentSale.handlePayment(payment);
+		currentSale.complete();
 
-		SaleInfoDTO saleInfo = currentSale.createInfoDTO();
+		SaleInfoDTO saleInfo = currentSale.getInfoAboutSale();
 
 		salesLog.logSale(saleInfo);
 		accounting.updateAccounts(saleInfo);
