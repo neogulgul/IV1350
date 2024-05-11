@@ -273,3 +273,10 @@ Amount in register increased by: 894.88 SEK
 │ Thanks for your purchase!          │
 └────────────────────────────────────┘
 ```
+After this sale a file called `total-revenue-from-latest-run.txt` will contain this:
+```
+Total revenue after sale #1: 8.95 SEK
+Total revenue after sale #2: 98.44 SEK
+Total revenue after sale #3: 993.32 SEK
+```
+This demonstrates the purpose of the class TotalRevenueFileOutput, which was specified in Part a of Task 2 for Seminar 4.
