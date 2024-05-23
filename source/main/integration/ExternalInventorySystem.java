@@ -84,9 +84,10 @@ public class ExternalInventorySystem
 	 *         If the item id was not found in the stock it returns invalid item information.
 	 *
 	 * @throws ItemNotFoundException If the item is not found inside the item stock.
+	 * @throws DatabaseUnavailableException If the inventory database connection fails.
 	 */
 	public ItemInfoDTO retrieveItemInfo(ItemIdDTO itemId)
-	throws ItemNotFoundException
+	throws ItemNotFoundException, DatabaseUnavailableException
 	{
 		if (itemId.equals(databaseErrorItemId))
 		{
